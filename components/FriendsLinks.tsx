@@ -2,6 +2,7 @@ import React from 'react';
 import { Language } from '../types';
 import { FRIENDS_DATA, FriendLink } from '../src/data/friends';
 import { ExternalLink } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface FriendsLinksProps {
   language: Language;
@@ -16,16 +17,20 @@ const LinkCard: React.FC<{ link: FriendLink }> = ({ link }) => (
   >
     <div className="h-full bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-black dark:hover:border-white flex flex-col">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0 border border-gray-200 dark:border-gray-700">
-          <img
-            src={link.avatar}
-            alt={link.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            onError={(e) => {
-              // Fallback to initial if image fails
-              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(link.title)}&background=random`;
-            }}
-          />
+        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+          {link.avatar === '/logo.svg' ? (
+            <Logo className="w-full h-full p-2 text-black dark:text-white transition-transform duration-500 group-hover:scale-110" />
+          ) : (
+            <img
+              src={link.avatar}
+              alt={link.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              onError={(e) => {
+                // Fallback to initial if image fails
+                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(link.title)}&background=random`;
+              }}
+            />
+          )}
         </div>
         <div className="flex-grow min-w-0">
           <h3 className="text-lg font-bold text-black dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">

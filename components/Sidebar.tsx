@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
 import { Language } from '../types';
 import { Moon, Sun, Globe, Bomb } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface SidebarProps {
   activeTab: string;
@@ -48,10 +49,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         
         {/* Logo Left - Text Based */}
-        <div 
+        <div
           className="cursor-pointer flex items-center gap-2 group shrink-0"
           onClick={() => setActiveTab('dashboard')}
         >
+          <Logo className={`transition-all duration-500 ease-in-out text-black dark:text-white ${isScrolled ? 'w-8 h-8 md:w-10 md:h-10' : 'w-10 h-10 md:w-16 md:h-16'}`} />
           <h1 className={`font-black tracking-tighter uppercase transition-all duration-500 ease-in-out text-black dark:text-white leading-none
             ${isScrolled ? 'text-xl md:text-3xl' : 'text-[clamp(1.25rem,3vw,3rem)]'}
           `}>
