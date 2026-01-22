@@ -22,6 +22,30 @@ export const ARTICLES_PAGE_DATA: Record<Language, ArticlesPageContent> = {
 
 export const ARTICLE_DATA = [
   {
+    "id": "7e1c37260005834fb7dd5df25adb71a4",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "https://mp.weixin.qq.com/s/qxEsiONWBiywQXeBHuvKCg",
+      "date": "2026-01-22",
+      "isLocal": false,
+      "tags": [
+        "security",
+        "cve",
+        "telnet",
+        "vulnerability",
+        "wechat"
+      ],
+      "coverImage": "/images/articles/cve-2026-24061-cover.png",
+      "star": true
+    },
+    "zh": {
+      "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)"
+    },
+    "en": {
+      "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)"
+    }
+  },
+  {
     "id": "40c2cd6b500160f38752242d11dedee4",
     "common": {
       "category": "瞎叨be叨",
