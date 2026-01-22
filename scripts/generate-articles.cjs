@@ -64,6 +64,14 @@ function scanArticles() {
     const titleZh = data.title || 'Untitled';
     const titleEn = data.title_en || titleZh;
 
+    // Handle Cover Image
+    let coverImage = data.cover || data.coverImage;
+    if (coverImage && !coverImage.startsWith('http') && !coverImage.startsWith('/')) {
+      // If it's a relative path, we assume it's relative to the public root or absolute path without leading slash
+      // For better support, we could assume it's in an 'assets' folder or similar, but for now prepending / is standard for public dir
+      coverImage = `/${coverImage}`;
+    }
+
     // Handle Category Mapping
     let category = data.category || 'Talk';
     if (CATEGORY_MAP[category]) {
@@ -90,7 +98,7 @@ function scanArticles() {
         date: data.date ? new Date(data.date).toISOString().split('T')[0] : '',
         isLocal: isLocal,
         tags: data.tags || [],
-        coverImage: data.coverImage || undefined,
+        coverImage: coverImage || undefined,
         star: data.star || false
       },
       zh: {

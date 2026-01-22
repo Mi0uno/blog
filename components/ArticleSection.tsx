@@ -3,9 +3,10 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ARTICLES, ARTICLE_LABELS } from '../constants';
 import { ArticleCategory, Language, Article } from '../types';
-import { ArrowUpRight, ArrowDown, ArrowUp, BookOpen, Calendar, Filter, ArrowLeft, Search, Tag, X, Loader2 } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, ArrowUp, Calendar, Filter, ArrowLeft, Search, Tag, X, Loader2 } from 'lucide-react';
 import matter from 'gray-matter';
 import MarkdownRenderer from './MarkdownRenderer';
+import { ArticleCoverImage } from './ArticleCoverImage';
 
 interface ArticleSectionProps {
   language: Language;
@@ -310,20 +311,10 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
                     
                     {/* Cover Image Container - Responsive aspect ratio 900:383 */}
                     <div className="w-full md:w-[45%] aspect-[900/383] shrink-0 rounded-xl overflow-hidden relative bg-gray-100 dark:bg-gray-900 transform-gpu">
-                        {article.coverImage ? (
-                             <img 
-                             src={article.coverImage} 
-                             alt={article.title} 
-                             loading="lazy"
-                             decoding="async"
-                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
-                             referrerPolicy="no-referrer"
-                           />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-800/50">
-                                 <BookOpen size={32} className="text-gray-300 dark:text-gray-600" />
-                            </div>
-                        )}
+                        <ArticleCoverImage
+                          src={article.coverImage}
+                          alt={article.title}
+                        />
                        
                         <div className="absolute top-2 left-2 bg-white/90 dark:bg-black/90 text-black dark:text-white px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md shadow-sm">
                           {ARTICLE_LABELS[language][article.category].split('|')[0].trim()}

@@ -22,6 +22,29 @@ export const ARTICLES_PAGE_DATA: Record<Language, ArticlesPageContent> = {
 
 export const ARTICLE_DATA = [
   {
+    "id": "40c2cd6b500160f38752242d11dedee4",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/article4.md",
+      "date": "2024-01-22",
+      "isLocal": true,
+      "tags": [
+        "markdown",
+        "cover",
+        "example",
+        "landscape"
+      ],
+      "coverImage": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1000&auto=format&fit=crop",
+      "star": false
+    },
+    "zh": {
+      "title": "带封面的Markdown文章示例"
+    },
+    "en": {
+      "title": "带封面的Markdown文章示例"
+    }
+  },
+  {
     "id": "b6d93871f41dc05452c50f642718bfff",
     "common": {
       "category": "瞎叨be叨",
