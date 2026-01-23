@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/generate-articles.cjs && vite",
-    "build": "node scripts/generate-articles.cjs && vite build",
+    "build": "node scripts/generate-articles.cjs && node scripts/generate-index.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
