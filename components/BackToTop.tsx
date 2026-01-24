@@ -26,10 +26,28 @@ export const BackToTop: React.FC = () => {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    const start = window.scrollY;
+    const startTime = performance.now();
+    const duration = 1000; // 1000ms duration
+
+    // Easing function: easeOutQuart
+    // 1 - (1 - t)^4
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const ease = easeOutQuart(progress);
+      
+      window.scrollTo(0, start * (1 - ease));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
   };
 
   // Don't render anything until the user has scrolled down enough to trigger the first appearance
