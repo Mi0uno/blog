@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/generate-articles.cjs && vite",
-    "build": "node scripts/generate-articles.cjs && node scripts/generate-index.js && vite build",
+    "dev": "node scripts/generate-articles.cjs && node scripts/generate-projects.cjs && vite",
+    "build": "node scripts/generate-articles.cjs && node scripts/generate-projects.cjs && node scripts/generate-index.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

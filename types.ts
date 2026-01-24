@@ -51,6 +51,7 @@ export interface ProjectLocalized {
 
 export interface Project {
   id: string;
+  star?: boolean;
   common: ProjectCommon;
   zh: ProjectLocalized;
   en: ProjectLocalized;
