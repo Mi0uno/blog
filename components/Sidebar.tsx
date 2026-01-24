@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
 import { Language } from '../types';
 import { Moon, Sun, Globe, Bomb } from 'lucide-react';
 import { Logo } from './Logo';
+import { motion, useScroll, useMotionValueEvent } from 'motion/react';
 
 interface SidebarProps {
   activeTab: string;
@@ -25,44 +26,89 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTriggerGravity
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 120);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const shouldBeScrolled = latest > 50;
+    if (shouldBeScrolled !== isScrolled) {
+      setIsScrolled(shouldBeScrolled);
+    }
+  });
 
   const items = NAV_ITEMS[language];
 
+  // Spring configuration for organic iOS-like feel
+  const springTransition = {
+    type: "spring",
+    stiffness: 180,
+    damping: 24,
+    mass: 1
+  };
+
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${isScrolled ? 'pt-4 md:pt-6' : 'pt-4 md:pt-6'}`}>
-      <nav 
+    <motion.div 
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
+      initial={false}
+      animate={{ 
+        paddingTop: isScrolled ? '1.5rem' : '1rem' // pt-6 vs pt-4
+      }}
+      transition={springTransition}
+    >
+      <motion.nav 
+        layout
+        initial={false}
+        animate={{
+          width: isScrolled ? 'auto' : '96vw',
+          backgroundColor: isScrolled 
+            ? (theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)') 
+            : 'rgba(0,0,0,0)',
+          borderColor: isScrolled 
+            ? (theme === 'dark' ? 'rgba(31,41,55,0.5)' : 'rgba(229,231,235,0.5)') 
+            : 'rgba(0,0,0,0)',
+          borderRadius: isScrolled ? '9999px' : '1rem', // rounded-full vs rounded-2xl
+          paddingLeft: isScrolled ? '2.5rem' : '0px', // px-10 vs px-0
+          paddingRight: isScrolled ? '2.5rem' : '0px',
+          paddingTop: isScrolled ? '1rem' : '0.5rem', // py-4 vs py-2
+          paddingBottom: isScrolled ? '1rem' : '0.5rem',
+          gap: isScrolled ? '3rem' : '3rem', // md:gap-12
+        }}
+        style={{
+          backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+        }}
+        transition={springTransition}
         className={`
+          pointer-events-auto
           flex items-center justify-between 
-          transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]
-          ${isScrolled 
-            ? 'w-[92vw] md:w-auto gap-2 md:gap-12 bg-white/90 dark:bg-black/90 backdrop-blur-md border border-gray-200 dark:border-gray-800 rounded-2xl md:rounded-full px-4 md:px-10 py-3 md:py-4 shadow-pill dark:shadow-pill-dark' 
-            : 'w-[96vw] bg-transparent border-transparent shadow-none px-0 py-2 backdrop-blur-none'}
+          shadow-sm
+          ${isScrolled ? 'shadow-2xl' : 'shadow-none'}
         `}
       >
         
         {/* Logo Left - Text Based */}
-        <div
+        <motion.div
+          layout="position"
           className="cursor-pointer flex items-center gap-2 group shrink-0"
           onClick={() => setActiveTab('dashboard')}
         >
-          <Logo className={`transition-all duration-500 ease-in-out text-black dark:text-white ${isScrolled ? 'w-8 h-8 md:w-10 md:h-10' : 'w-10 h-10 md:w-16 md:h-16'}`} />
-          <h1 className={`font-black tracking-tighter uppercase transition-all duration-500 ease-in-out text-black dark:text-white leading-none
-            ${isScrolled ? 'text-xl md:text-3xl' : 'text-[clamp(1.25rem,3vw,3rem)]'}
-          `}>
+          <Logo className={`transition-colors duration-500 text-black dark:text-white ${isScrolled ? 'w-10 h-10' : 'w-10 h-10 md:w-16 md:h-16'}`} />
+          <motion.h1 
+            layout="position"
+            className={`font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap`}
+            animate={{
+              fontSize: isScrolled ? '1.875rem' : '3rem', // text-3xl vs text-[3rem]
+            }}
+          >
             mi0034
-          </h1>
-        </div>
+          </motion.h1>
+        </motion.div>
 
         {/* Links Right */}
-        <div className={`flex items-center transition-all duration-700 overflow-x-auto no-scrollbar mask-gradient ${isScrolled ? 'gap-2 md:gap-8' : 'gap-3 md:gap-12'}`}>
+        <motion.div 
+          layout="position"
+          className={`flex items-center overflow-x-auto no-scrollbar mask-gradient ${isScrolled ? 'gap-8' : 'gap-12'}`}
+        >
           {items.map((item) => {
             const isActive = activeTab === item.id;
             return (
@@ -115,8 +161,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
              </button>
           </div>
 
-        </div>
-      </nav>
-    </div>
+        </motion.div>
+      </motion.nav>
+    </motion.div>
   );
 };
