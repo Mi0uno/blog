@@ -39,7 +39,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Spring configuration for organic iOS-like feel
   const springTransition = {
-    type: "spring",
+    type: "spring" as const,
     stiffness: 180,
     damping: 24,
     mass: 1
@@ -47,10 +47,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <motion.div 
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none overflow-x-hidden"
       initial={false}
       animate={{ 
-        paddingTop: isScrolled ? '1.5rem' : '1rem' // pt-6 vs pt-4
+        paddingTop: isScrolled ? '1.5rem' : '0px'
       }}
       transition={springTransition}
     >
@@ -58,23 +58,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
         layout
         initial={false}
         animate={{
-          width: isScrolled ? 'auto' : '96vw',
+          width: isScrolled ? 'auto' : '100%',
           backgroundColor: isScrolled 
             ? (theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)') 
-            : 'rgba(0,0,0,0)',
+            : 'rgba(0,0,0,0)', // Transparent at top
           borderColor: isScrolled 
             ? (theme === 'dark' ? 'rgba(31,41,55,0.5)' : 'rgba(229,231,235,0.5)') 
             : 'rgba(0,0,0,0)',
-          borderRadius: isScrolled ? '9999px' : '1rem', // rounded-full vs rounded-2xl
-          paddingLeft: isScrolled ? '2.5rem' : '0px', // px-10 vs px-0
-          paddingRight: isScrolled ? '2.5rem' : '0px',
-          paddingTop: isScrolled ? '1rem' : '0.5rem', // py-4 vs py-2
-          paddingBottom: isScrolled ? '1rem' : '0.5rem',
-          gap: isScrolled ? '3rem' : '3rem', // md:gap-12
+          borderRadius: isScrolled ? '9999px' : '0px',
+          borderWidth: isScrolled ? '1px' : '0px',
+          paddingLeft: isScrolled ? '2.5rem' : '1.5rem', // px-10 vs px-6
+          paddingRight: isScrolled ? '2.5rem' : '1.5rem',
+          paddingTop: isScrolled ? '1rem' : '1.5rem', // py-4 vs py-6
+          paddingBottom: isScrolled ? '1rem' : '1.5rem',
+          gap: isScrolled ? '3rem' : '3rem',
         }}
         style={{
           backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-          borderWidth: '1px',
           borderStyle: 'solid',
         }}
         transition={springTransition}
@@ -83,6 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           flex items-center justify-between 
           shadow-sm
           ${isScrolled ? 'shadow-2xl' : 'shadow-none'}
+          box-border
         `}
       >
         
@@ -92,12 +93,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className="cursor-pointer flex items-center gap-2 group shrink-0"
           onClick={() => setActiveTab('dashboard')}
         >
-          <Logo className={`transition-colors duration-500 text-black dark:text-white ${isScrolled ? 'w-10 h-10' : 'w-10 h-10 md:w-16 md:h-16'}`} />
+          <Logo className={`transition-colors duration-500 text-black dark:text-white ${isScrolled ? 'w-10 h-10' : 'w-12 h-12 md:w-16 md:h-16'}`} />
           <motion.h1 
             layout="position"
             className={`font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap`}
             animate={{
-              fontSize: isScrolled ? '1.875rem' : '3rem', // text-3xl vs text-[3rem]
+              fontSize: isScrolled ? '1.875rem' : '3rem',
             }}
           >
             mi0034
