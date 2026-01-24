@@ -301,10 +301,11 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
 
           {/* Article List - One per line */}
           <div className="flex flex-col gap-6">
-            {filteredAndSortedArticles.map((article) => (
+            {filteredAndSortedArticles.map((article, index) => (
               <div
                 key={article.id}
-                className="group cursor-pointer"
+                className="group cursor-pointer reveal-on-scroll"
+                style={{ transitionDelay: `${(index % 5) * 100}ms` }}
                 onClick={() => handleArticleClick(article)}
               >
                 <div className="flex flex-col md:flex-row bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden p-2 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 items-stretch h-auto">

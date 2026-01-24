@@ -98,10 +98,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
       <section className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-16 mb-12 lg:mb-20 items-start">
         
         {/* LEFT: Massive Interactive Title */}
-        <div className="lg:col-span-7 w-full">
+        <div className="lg:col-span-7 w-full reveal-on-scroll">
             <div className="flex flex-col w-full mb-6 lg:mb-8">
               {heroItems.map((item, index) => (
-                <div key={index} className="group cursor-pointer" onClick={() => !item.text.includes('摄影') && !item.text.includes('Photography') && handleHeadlineClick(item.category || null)}>
+                <div
+                  key={index}
+                  className="group cursor-pointer reveal-on-scroll"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                  onClick={() => !item.text.includes('摄影') && !item.text.includes('Photography') && handleHeadlineClick(item.category || null)}
+                >
                   {renderHeadlineText(item, index)}
                   {index < heroItems.length - 1 && (
                     <div className="w-full h-[1px] bg-black/10 dark:bg-white/10 my-2 md:my-4 transition-colors duration-300"></div>
@@ -117,22 +122,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
                  {line}
                  <br className="hidden md:block" />
                  {/* Mobile simple space */}
-                 <span className="md:hidden"> </span> 
+                 <span className="md:hidden"> </span>
                </React.Fragment>
              ))}
           </div>
         </div>
 
         {/* RIGHT: Structured List (Cleaned Up) */}
-        <div className="lg:col-span-5 pt-0 lg:pt-4 w-full flex flex-col justify-between h-full">
+        <div className="lg:col-span-5 pt-0 lg:pt-4 w-full flex flex-col justify-between h-full reveal-on-scroll" style={{ transitionDelay: '200ms' }}>
           <div>
             <div className="w-full h-[2px] bg-black dark:bg-white mb-6 lg:mb-8 transition-colors duration-300"></div>
             
             {/* Just Location and Contact now */}
             <div className="space-y-4 lg:space-y-6">
                {/* Base Location */}
-               <div 
-                  className="relative group cursor-pointer"
+               <div
+                  className="relative group cursor-pointer reveal-on-scroll"
+                  style={{ transitionDelay: '300ms' }}
                >
                   <h3 className="text-2xl lg:text-3xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
                     {contactContent.baseLabel}
@@ -143,7 +149,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
                   </div>
 
                   {/* Floating Tooltip - Fixed position above Location with fallback text */}
-                  <div 
+                  <div
                       className="absolute -top-10 left-0 z-50 px-4 py-2 bg-cyan-500/80 backdrop-blur-md text-white text-sm font-bold rounded-xl shadow-lg pointer-events-none transition-all duration-300 opacity-0 transform scale-95 translate-y-2 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 whitespace-nowrap border border-white/20"
                    >
                       {tooltipText}
@@ -151,7 +157,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
                </div>
 
                {/* Contact - Green Text */}
-               <div onClick={() => onNavigate('contact')} className="cursor-pointer group flex items-center gap-3">
+               <div
+                 onClick={() => onNavigate('contact')}
+                 className="cursor-pointer group flex items-center gap-3 reveal-on-scroll"
+                 style={{ transitionDelay: '400ms' }}
+               >
                  <span className="text-2xl lg:text-3xl text-[#00D26A] transition-transform duration-300 group-hover:translate-x-1">→</span>
                  <h3 className="text-2xl lg:text-3xl font-bold mb-0 text-[#00D26A] transition-colors duration-300 group-hover:opacity-80">
                     {contactContent.contactLabel}
@@ -164,13 +174,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
       </section>
 
       {/* Featured Articles Section */}
-      <div className="mb-20 lg:mb-32">
+      <div className="mb-20 lg:mb-32 reveal-on-scroll">
         <div className="w-full h-[2px] bg-gray-100 dark:bg-gray-800 mb-6 lg:mb-8 transition-colors duration-300"></div>
         <div className="flex items-end justify-between mb-8 lg:mb-12">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-black dark:text-white transition-colors duration-300">
             {content.featuredArticles}
           </h2>
-          <button 
+          <button
             onClick={() => onNavigate('articles')}
             className="hidden md:flex items-center gap-2 text-lg font-bold hover:underline decoration-2 underline-offset-4 text-black dark:text-white"
           >
@@ -181,7 +191,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
         
         <FeaturedArticles language={language} />
         
-        <button 
+        <button
           onClick={() => onNavigate('articles')}
           className="md:hidden w-full mt-8 flex items-center justify-center gap-2 py-4 border-2 border-black dark:border-white rounded-xl font-bold text-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-black dark:text-white"
         >
@@ -191,8 +201,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onCategory
       </div>
 
       {/* Selected Works Preview */}
-      <div className="w-full h-[2px] bg-gray-100 dark:bg-gray-800 mb-6 lg:mb-8 transition-colors duration-300"></div>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 lg:mb-10 gap-4">
+      <div className="w-full h-[2px] bg-gray-100 dark:bg-gray-800 mb-6 lg:mb-8 transition-colors duration-300 reveal-on-scroll"></div>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 lg:mb-10 gap-4 reveal-on-scroll delay-100">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-black dark:text-white transition-colors duration-300">{content.selectedWorks}</h2>
         <span className="text-base lg:text-lg font-mono text-gray-500 dark:text-gray-400 font-bold tracking-widest transition-colors duration-300">{content.years}</span>
       </div>

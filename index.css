@@ -31,3 +31,262 @@
   ::view-transition-old(page),
   ::view-transition-new(page) { animation: none !important; }
 }
+
+/* ============================================
+   高性能滚动揭示动画系统
+   High-Performance Scroll Reveal Animation System
+   ============================================ */
+
+/* 基础滚动揭示类 - 使用 GPU 加速 */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.98);
+  transition: 
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Fade In Up - 向上淡入 */
+.reveal-fade-in-up {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-up.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Fade In Down - 向下淡入 */
+.reveal-fade-in-down {
+  opacity: 0;
+  transform: translate3d(0, -40px, 0);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-down.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Fade In Left - 从左淡入 */
+.reveal-fade-in-left {
+  opacity: 0;
+  transform: translate3d(-40px, 0, 0);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-left.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Fade In Right - 从右淡入 */
+.reveal-fade-in-right {
+  opacity: 0;
+  transform: translate3d(40px, 0, 0);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-right.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Fade In Scale - 缩放淡入 */
+.reveal-fade-in-scale {
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(0.9);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-scale.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Fade In Blur - 模糊淡入 */
+.reveal-fade-in-blur {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  filter: blur(8px);
+  transition: 
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-fade-in-blur.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+/* 延迟类 - 用于创建交错动画效果 */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+.delay-700 { transition-delay: 700ms; }
+.delay-800 { transition-delay: 800ms; }
+.delay-900 { transition-delay: 900ms; }
+.delay-1000 { transition-delay: 1000ms; }
+
+/* 持续时间变体 */
+.duration-300 { transition-duration: 0.3s; }
+.duration-500 { transition-duration: 0.5s; }
+.duration-700 { transition-duration: 0.7s; }
+.duration-1000 { transition-duration: 1s; }
+.duration-1500 { transition-duration: 1.5s; }
+
+/* 缓动函数变体 */
+.ease-linear { transition-timing-function: linear; }
+.ease-in { transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+.ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+.ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+.ease-bounce { transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+
+/* ============================================
+   无障碍支持
+   Accessibility Support
+   ============================================ */
+
+/* 为偏好减少动画的用户禁用所有动画 */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-fade-in-up,
+  .reveal-fade-in-down,
+  .reveal-fade-in-left,
+  .reveal-fade-in-right,
+  .reveal-fade-in-scale,
+  .reveal-fade-in-blur {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  .delay-100, .delay-200, .delay-300, .delay-400,
+  .delay-500, .delay-600, .delay-700, .delay-800,
+  .delay-900, .delay-1000 {
+    transition-delay: 0ms !important;
+  }
+
+  .duration-300, .duration-500, .duration-700,
+  .duration-1000, .duration-1500 {
+    transition-duration: 0s !important;
+  }
+}
+
+/* ============================================
+   移动端优化
+   Mobile Optimization
+   ============================================ */
+
+/* 在小屏幕上减少动画距离和时间 */
+@media (max-width: 768px) {
+  .reveal-on-scroll {
+    transform: translate3d(0, 20px, 0) scale(0.99);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-up {
+    transform: translate3d(0, 20px, 0);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-down {
+    transform: translate3d(0, -20px, 0);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-left {
+    transform: translate3d(-20px, 0, 0);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-right {
+    transform: translate3d(20px, 0, 0);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-scale {
+    transform: translate3d(0, 0, 0) scale(0.95);
+    transition-duration: 0.5s;
+  }
+
+  .reveal-fade-in-blur {
+    transform: translate3d(0, 15px, 0);
+    filter: blur(4px);
+    transition-duration: 0.5s;
+  }
+}
+
+/* ============================================
+   性能优化
+   Performance Optimization
+   ============================================ */
+
+/* 强制 GPU 加速 */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 减少重绘 */
+.reduce-repaint {
+  contain: layout style paint;
+}
+
+/* 优化滚动性能 */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* 防止布局偏移 */
+.prevent-layout-shift {
+  contain: strict;
+}

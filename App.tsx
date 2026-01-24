@@ -10,7 +10,9 @@ import { TimelineSection } from './components/TimelineSection';
 import { FriendsLinks } from './components/FriendsLinks';
 import { MusicPlayer } from './components/MusicPlayer';
 import { BackToTop } from './components/BackToTop';
+import { SmoothScroll } from './src/components/SmoothScroll';
 import { Mail, MapPin, RotateCcw, MessageSquare, Instagram, Youtube, FileText, Aperture, Github } from 'lucide-react';
+import { useScrollReveal } from './src/hooks/useScrollReveal';
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
 import { ARTICLES_PAGE_DATA } from './src/data/articles';
@@ -32,6 +34,8 @@ function App() {
   const [portfolioCategory, setPortfolioCategory] = useState<string>('All');
   
   const [gravityActive, setGravityActive] = useState(false);
+
+  useScrollReveal();
 
   // Sync activeTab with URL path
   useEffect(() => {
@@ -406,7 +410,7 @@ function App() {
         } />
         <Route path="/portfolio" element={
           <div className="pt-20 w-full max-w-[96vw] mx-auto">
-             <div className="mb-24">
+             <div className="mb-24 reveal-on-scroll">
                <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
                  {PORTFOLIO_PAGE_DATA[language].title}
                </h1>
@@ -414,12 +418,14 @@ function App() {
                  {PORTFOLIO_PAGE_DATA[language].description}
                </p>
              </div>
-             <PortfolioSection language={language} externalFilter={portfolioCategory} />
+             <div className="reveal-on-scroll delay-100">
+                <PortfolioSection language={language} externalFilter={portfolioCategory} />
+             </div>
           </div>
         } />
         <Route path="/articles" element={
           <div className="pt-20 w-full max-w-[96vw] mx-auto">
-             <div className="mb-24 flex flex-col items-center text-center">
+             <div className="mb-24 flex flex-col items-center text-center reveal-on-scroll">
                <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
                  {ARTICLES_PAGE_DATA[language].title}
                </h1>
@@ -427,7 +433,9 @@ function App() {
                  {ARTICLES_PAGE_DATA[language].description}
                </p>
              </div>
-             <ArticleSection language={language} />
+             <div className="reveal-on-scroll delay-100">
+                <ArticleSection language={language} />
+             </div>
           </div>
         } />
         <Route path="/:date/:md5" element={
@@ -442,14 +450,14 @@ function App() {
         } />
         <Route path="/contact" element={
            <div className="pt-32 w-full max-w-5xl mx-auto text-center animate-fade-in px-4">
-              <h1 className="text-[12vw] font-black mb-12 leading-none text-black dark:text-white transition-colors duration-300">
+              <h1 className="text-[12vw] font-black mb-12 leading-none text-black dark:text-white transition-colors duration-300 reveal-on-scroll">
                 {content.hello}
               </h1>
-              <p className="text-3xl text-gray-500 dark:text-gray-400 mb-20 max-w-3xl mx-auto leading-relaxed font-medium transition-colors duration-300">
+              <p className="text-3xl text-gray-500 dark:text-gray-400 mb-20 max-w-3xl mx-auto leading-relaxed font-medium transition-colors duration-300 reveal-on-scroll delay-100">
                 {content.intro}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-on-scroll delay-200">
                  {/* Email */}
                   <div className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] group cursor-default hover:border-orange-500 transition-colors duration-300">
                      <Mail size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-orange-500 transition-colors duration-300" />
@@ -690,6 +698,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white font-sans selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black overflow-x-hidden transition-colors duration-300">
+      
+      {/* 高性能平滑滚动 */}
+      <SmoothScroll />
       
       <MusicPlayer language={language} />
       {/* Dynamic Navigation */}

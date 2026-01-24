@@ -62,7 +62,7 @@ export const FriendsLinks: React.FC<FriendsLinksProps> = ({ language }) => {
 
   return (
     <div className="w-full max-w-[96vw] mx-auto pb-20 animate-fade-in">
-      <div className="mb-16 flex flex-col items-center text-center">
+      <div className="mb-16 flex flex-col items-center text-center reveal-on-scroll">
         <h1 className="text-[8vw] leading-none font-black mb-8 text-black dark:text-white transition-colors duration-300">
           {data.title}
         </h1>
@@ -73,27 +73,39 @@ export const FriendsLinks: React.FC<FriendsLinksProps> = ({ language }) => {
 
       <div className="max-w-6xl mx-auto px-4">
         {/* My Projects Section */}
-        <section className="mb-20">
+        <section className="mb-20 reveal-on-scroll delay-100">
           <h2 className="text-3xl font-black mb-8 flex items-center gap-3 text-black dark:text-white">
             <span className="w-2 h-8 bg-black dark:bg-white rounded-full"></span>
             {data.myProjectsTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.myProjects.map((link) => (
-              <LinkCard key={link.id} link={link} />
+            {data.myProjects.map((link, index) => (
+              <div
+                key={link.id}
+                className="reveal-on-scroll"
+                style={{ transitionDelay: `${(index % 3) * 100}ms` }}
+              >
+                <LinkCard link={link} />
+              </div>
             ))}
           </div>
         </section>
 
         {/* Friendly Links Section */}
-        <section>
+        <section className="reveal-on-scroll delay-200">
           <h2 className="text-3xl font-black mb-8 flex items-center gap-3 text-black dark:text-white">
             <span className="w-2 h-8 bg-blue-500 rounded-full"></span>
             {data.friendlyLinksTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.friendlyLinks.map((link) => (
-              <LinkCard key={link.id} link={link} />
+            {data.friendlyLinks.map((link, index) => (
+              <div
+                key={link.id}
+                className="reveal-on-scroll"
+                style={{ transitionDelay: `${(index % 3) * 100}ms` }}
+              >
+                <LinkCard link={link} />
+              </div>
             ))}
           </div>
         </section>

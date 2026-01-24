@@ -1,7 +1,7 @@
 [
   {
     "title": "一切的源头“GIT”",
-    "slug": "output/一切的源头“GIT”/一切的源头“GIT”",
+    "slug": "一切的源头“GIT”",
     "date": "2026-01-23T00:00:00.000Z",
     "tags": [
       "开发",
@@ -12,7 +12,7 @@
     ],
     "category": "Talk",
     "description": "0x00 番外篇-什么是git --- 参考： https://developer.aliyun.com/article/761663 https://zh.wikipedia.org/zh-hans/Git 这里只是类似于小学生科学课的地方，介绍历史，文件结构，或许我们会有兴趣，如果不想看，可以直接跳跃到第一章节(0x01)我们应该看看伟大的维基百科不是吗 一个$1软件，最初由$1创作，于200",
-    "path": "/articles/output/一切的源头“GIT”/一切的源头“GIT”"
+    "path": "/articles/一切的源头“GIT”"
   },
   {
     "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)",

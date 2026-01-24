@@ -170,10 +170,11 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
           ? 'md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12'
           : 'md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16'
       }`}>
-        {filteredProjects.map((project) => (
-          <div 
-            key={project.id} 
-            className={`group cursor-pointer flex flex-col h-full transform-gpu ${project.category === Category.DEV ? 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-300' : ''}`}
+        {filteredProjects.map((project, index) => (
+          <div
+            key={project.id}
+            className={`group cursor-pointer flex flex-col h-full transform-gpu reveal-on-scroll ${project.category === Category.DEV ? 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-300' : ''}`}
+            style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             onClick={() => setSelectedProject(project)}
           >
             

@@ -1,10 +1,15 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
 import { Language } from '../types';
 import { Moon, Sun, Globe, Bomb } from 'lucide-react';
 import { Logo } from './Logo';
-import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValueEvent
+} from 'motion/react';
 
 interface SidebarProps {
   activeTab: string;
@@ -16,8 +21,36 @@ interface SidebarProps {
   onTriggerGravity: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ 
-  activeTab, 
+function useWindowWidth() {
+  const [w, setW] = useState<number>(0);
+  useEffect(() => {
+    const update = () => setW(window.innerWidth || 0);
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return w;
+}
+
+// Very light noise texture for frosted look (fast, no backdrop-filter)
+function noiseDataURI(opacity = 0.06) {
+  const svg = encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+  <filter id="n">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="matrix" values="
+      1 0 0 0 0
+      0 1 0 0 0
+      0 0 1 0 0
+      0 0 0 ${opacity} 0"/>
+  </filter>
+  <rect width="120" height="120" filter="url(#n)"/>
+</svg>`);
+  return `data:image/svg+xml,${svg}`;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({
+  activeTab,
   setActiveTab,
   language,
   toggleLanguage,
@@ -25,157 +58,226 @@ export const Sidebar: React.FC<SidebarProps> = ({
   toggleTheme,
   onTriggerGravity
 }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const items = NAV_ITEMS[language];
   const { scrollY } = useScroll();
+  const ww = useWindowWidth();
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const shouldBeScrolled = latest > 50;
-    if (shouldBeScrolled !== isScrolled) {
-      setIsScrolled(shouldBeScrolled);
-    }
+  // Continuous progress (no boolean threshold animation)
+  const raw = useTransform(scrollY, [0, 90], [0, 1], { clamp: true });
+  const p = useSpring(raw, { stiffness: 260, damping: 32, mass: 0.9 });
+
+  // wrapper translateY (avoid padding/layout)
+  const y = useTransform(p, [0, 1], [0, 24]);
+
+  // Cross-fade (compositor only)
+  const topOpacity = useTransform(p, [0, 0.7, 1], [1, 0.2, 0]);
+  const topScale = useTransform(p, [0, 1], [1, 0.98]);
+  const topY = useTransform(p, [0, 1], [0, -6]);
+
+  const pillOpacity = useTransform(p, [0, 0.25, 1], [0, 0.6, 1]);
+  const pillScale = useTransform(p, [0, 1], [0.985, 1]);
+  const pillY = useTransform(p, [0, 1], [6, 0]);
+
+  // Enable pointer events only on the visually active layer
+  const [pillActive, setPillActive] = useState(false);
+  useMotionValueEvent(p, 'change', (v) => {
+    setPillActive((prev) => {
+      if (!prev && v > 0.55) return true;
+      if (prev && v < 0.45) return false;
+      return prev;
+    });
   });
 
-  const items = NAV_ITEMS[language];
+  // Centered pill width (fixed; not animated)
+  const collapsedMax = 1024; // ~64rem
+  const pillMaxWidth = Math.min(collapsedMax, Math.max(320, ww - 24));
 
-  // Spring configuration for organic iOS-like feel
-  const springTransition = {
-    type: "spring" as const,
-    stiffness: 180,
-    damping: 24,
-    mass: 1
-  };
+  // Frosted (opaque) glass palette
+  const glassBg =
+    theme === 'dark'
+      ? 'rgba(17, 24, 39, 0.96)'
+      : 'rgba(255, 255, 255, 0.96)';
+
+  const glassBorder =
+    theme === 'dark'
+      ? 'rgba(255, 255, 255, 0.12)'
+      : 'rgba(17, 24, 39, 0.10)';
+
+  const highlight =
+    theme === 'dark'
+      ? 'linear-gradient(to bottom, rgba(255,255,255,0.10), rgba(255,255,255,0.03) 42%, rgba(255,255,255,0.00))'
+      : 'linear-gradient(to bottom, rgba(255,255,255,0.75), rgba(255,255,255,0.20) 42%, rgba(255,255,255,0.00))';
+
+  const noise = useMemo(() => noiseDataURI(0.06), []);
+
+  const RightContent = () => (
+    <div className="flex items-center overflow-x-auto no-scrollbar mask-gradient gap-8">
+      {items.map((item) => {
+        const isActive = activeTab === item.id;
+        return (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`
+              text-base md:text-xl font-bold uppercase tracking-wide transition-colors duration-200 relative group whitespace-nowrap
+              ${isActive ? 'text-black dark:text-white' : 'text-gray-400 hover:text-black dark:hover:text-white'}
+            `}
+          >
+            {item.label}
+            <span
+              className={`
+                absolute -bottom-1 left-0 w-full h-[2px] md:h-[3px] bg-black dark:bg-white
+                transform transition-transform duration-200
+                ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
+              `}
+            />
+          </button>
+        );
+      })}
+
+      <div className="w-[1px] h-6 md:h-8 bg-gray-200 dark:bg-gray-700 shrink-0 mx-2" />
+
+      <div className="flex items-center gap-2 md:gap-4 shrink-0">
+        <button
+          onClick={toggleLanguage}
+          className="p-1 md:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white flex items-center gap-1"
+          title="Switch Language"
+        >
+          <Globe size={20} className="md:w-6 md:h-6" />
+          <span className="text-base md:text-lg font-bold">{language === 'zh' ? 'EN' : '中'}</span>
+        </button>
+
+        <button
+          onClick={toggleTheme}
+          className="p-1 md:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white"
+          title="Toggle Theme"
+        >
+          {theme === 'light' ? <Moon size={20} className="md:w-6 md:h-6" /> : <Sun size={20} className="md:w-6 md:h-6" />}
+        </button>
+
+        <button
+          onClick={onTriggerGravity}
+          className="p-1 md:p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900 transition-colors text-black dark:text-white"
+          title="Boom!"
+        >
+          <Bomb size={20} className="md:w-6 md:h-6 hover:text-red-500 transition-colors" />
+        </button>
+      </div>
+    </div>
+  );
+
+  const LeftLogo = () => (
+    <div
+      className="cursor-pointer flex items-center gap-2 group shrink-0"
+      onClick={() => setActiveTab('dashboard')}
+    >
+      <Logo className="transition-colors duration-500 text-black dark:text-white w-10 h-10 md:w-12 md:h-12" />
+      <div className="relative flex items-center h-12">
+        <div
+          className="font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap origin-left"
+          style={{ fontSize: '3rem' }}
+        >
+          mi0034
+        </div>
+      </div>
+    </div>
+  );
+
+  const GlassPlate: React.FC<{ radius: number }> = ({ radius }) => (
+    <div
+      aria-hidden
+      className="absolute inset-0 -z-10 pointer-events-none"
+      style={{
+        borderRadius: radius,
+        backgroundColor: glassBg,
+        backgroundImage: `${highlight}, url("${noise}")`,
+        backgroundBlendMode: 'normal'
+      }}
+    />
+  );
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none overflow-x-hidden"
-      initial={false}
-      animate={{ 
-        paddingTop: isScrolled ? '1.5rem' : '0px'
-      }}
-      transition={springTransition}
+      style={{ y }}
     >
-      <motion.nav 
-        layout
+      {/* ===== TOP NAV (full width) ===== */}
+      <motion.nav
         initial={false}
-        animate={{
-          width: isScrolled ? 'auto' : '100%',
-          backgroundColor: isScrolled 
-            ? (theme === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)') 
-            : 'rgba(0,0,0,0)', // Transparent at top
-          borderColor: isScrolled 
-            ? (theme === 'dark' ? 'rgba(31,41,55,0.5)' : 'rgba(229,231,235,0.5)') 
-            : 'rgba(0,0,0,0)',
-          borderRadius: isScrolled ? '9999px' : '0px',
-          borderWidth: isScrolled ? '1px' : '0px',
-          paddingLeft: isScrolled ? '2.5rem' : '1.5rem', // px-10 vs px-6
-          paddingRight: isScrolled ? '2.5rem' : '1.5rem',
-          paddingTop: isScrolled ? '1rem' : '1.5rem', // py-4 vs py-6
-          paddingBottom: isScrolled ? '1rem' : '1.5rem',
-          gap: isScrolled ? '3rem' : '3rem',
-        }}
         style={{
-          backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-          borderStyle: 'solid',
+          opacity: topOpacity,
+          scale: topScale,
+          y: topY,
+          width: '100%',
+          maxWidth: '100%',
+          borderRadius: 0,
+          paddingLeft: 24,
+          paddingRight: 24,
+          paddingTop: 24,
+          paddingBottom: 24,
+          overflow: 'hidden',
+          willChange: 'transform, opacity',
+          transform: 'translateZ(0)',
+          pointerEvents: pillActive ? 'none' : 'auto'
         }}
-        transition={springTransition}
-        className={`
-          pointer-events-auto
-          flex items-center justify-between 
-          shadow-sm
-          ${isScrolled ? 'shadow-2xl' : 'shadow-none'}
-          box-border
-        `}
+        className="pointer-events-auto relative flex items-center justify-between box-border"
       >
-        
-        {/* Logo Left - Text Based */}
-        <motion.div
-          layout="position"
-          className="cursor-pointer flex items-center gap-2 group shrink-0"
-          onClick={() => setActiveTab('dashboard')}
-        >
-          <Logo className={`transition-colors duration-500 text-black dark:text-white ${isScrolled ? 'w-10 h-10' : 'w-12 h-12 md:w-16 md:h-16'}`} />
-          <motion.div
-            layout="position"
-            className="relative flex items-center"
-            style={{ 
-              height: isScrolled ? '1.875rem' : '3rem',
-              width: isScrolled ? 'auto' : 'auto'
-            }}
-          >
-            <motion.h1 
-              layout="position"
-              className={`font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap origin-left`}
-              animate={{
-                scale: isScrolled ? 0.625 : 1, // 1.875rem / 3rem = 0.625
-              }}
-              style={{
-                fontSize: '3rem', // Fixed base size
-              }}
-              transition={springTransition}
-            >
-              mi0034
-            </motion.h1>
-          </motion.div>
-        </motion.div>
+        <LeftLogo />
+        <RightContent />
+      </motion.nav>
 
-        {/* Links Right */}
-        <motion.div 
-          layout="position"
-          className={`flex items-center overflow-x-auto no-scrollbar mask-gradient ${isScrolled ? 'gap-8' : 'gap-12'}`}
-        >
-          {items.map((item) => {
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`
-                  text-base md:text-xl font-bold uppercase tracking-wide transition-colors duration-200 relative group whitespace-nowrap
-                  ${isActive ? 'text-black dark:text-white' : 'text-gray-400 hover:text-black dark:hover:text-white'}
-                `}
-              >
-                {item.label}
-                {/* Underline for hover/active */}
-                <span className={`absolute -bottom-1 left-0 w-full h-[2px] md:h-[3px] bg-black dark:bg-white transform transition-transform duration-200 ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-              </button>
-            )
-          })}
+      {/* ===== PILL NAV (centered) ===== */}
+      <motion.nav
+        initial={false}
+        style={{
+          opacity: pillOpacity,
+          scale: pillScale,
+          y: pillY,
 
-          {/* Divider */}
-          <div className="w-[1px] h-6 md:h-8 bg-gray-200 dark:bg-gray-700 shrink-0 mx-2"></div>
+          position: 'absolute',
+          left: '50%',
+          top: 0,
 
-          {/* Controls: Language & Theme & Gravity */}
-          <div className="flex items-center gap-2 md:gap-4 shrink-0">
-             {/* Language Toggle */}
-             <button
-               onClick={toggleLanguage}
-               className="p-1 md:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white flex items-center gap-1"
-               title="Switch Language"
-             >
-               <Globe size={20} className="md:w-6 md:h-6" />
-               <span className="text-base md:text-lg font-bold">{language === 'zh' ? 'EN' : '中'}</span>
-             </button>
+          // ✅ always centered
+          x: '-50%',
 
-             {/* Theme Toggle */}
-             <button 
-               onClick={toggleTheme}
-               className="p-1 md:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white"
-               title="Toggle Theme"
-             >
-               {theme === 'light' ? <Moon size={20} className="md:w-6 md:h-6" /> : <Sun size={20} className="md:w-6 md:h-6" />}
-             </button>
-             
-             {/* Gravity Bonus Toggle */}
-             <button 
-               onClick={onTriggerGravity}
-               className="p-1 md:p-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900 transition-colors text-black dark:text-white"
-               title="Boom!"
-             >
-               <Bomb size={20} className="md:w-6 md:h-6 hover:text-red-500 transition-colors" />
-             </button>
-          </div>
+          width: '100%',
+          maxWidth: pillMaxWidth,
 
-        </motion.div>
+          borderRadius: 99999,
+          paddingLeft: 40,
+          paddingRight: 40,
+          paddingTop: 16,
+          paddingBottom: 16,
+
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: glassBorder,
+
+          overflow: 'hidden',
+          willChange: 'transform, opacity',
+          pointerEvents: pillActive ? 'auto' : 'none'
+        }}
+        // ✅ No shadow
+        className="pointer-events-auto relative flex items-center justify-between box-border"
+      >
+        <GlassPlate radius={99999} />
+
+        {/* subtle inner highlight (still no outer shadow) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            borderRadius: 99999,
+            boxShadow:
+              theme === 'dark'
+                ? 'inset 0 1px 0 rgba(255,255,255,0.10)'
+                : 'inset 0 1px 0 rgba(255,255,255,0.70)'
+          }}
+        />
+
+        <LeftLogo />
+        <RightContent />
       </motion.nav>
     </motion.div>
   );

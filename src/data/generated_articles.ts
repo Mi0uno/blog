@@ -22,6 +22,29 @@ export const ARTICLES_PAGE_DATA: Record<Language, ArticlesPageContent> = {
 
 export const ARTICLE_DATA = [
   {
+    "id": "cbf0677cad59ee7ef43bc0b08a351778",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/一切的源头“GIT”.md",
+      "date": "2026-01-23",
+      "isLocal": true,
+      "tags": [
+        "开发",
+        "前置基础",
+        "git",
+        "博客",
+        "公众号"
+      ],
+      "star": false
+    },
+    "zh": {
+      "title": "一切的源头“GIT”"
+    },
+    "en": {
+      "title": "一切的源头“GIT”"
+    }
+  },
+  {
     "id": "7e1c37260005834fb7dd5df25adb71a4",
     "common": {
       "category": "瞎叨be叨",
@@ -35,7 +58,6 @@ export const ARTICLE_DATA = [
         "vulnerability",
         "wechat"
       ],
-      "coverImage": "/images/articles/cve-2026-24061-cover.png",
       "star": true
     },
     "zh": {
