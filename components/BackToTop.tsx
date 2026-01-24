@@ -32,12 +32,14 @@ export const BackToTop: React.FC = () => {
   }
 
   return (
-    <button
-      onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-50 p-4 bg-black dark:bg-white text-white dark:text-black rounded-full shadow-2xl hover:scale-110 transition-all duration-300 animate-fade-in cursor-pointer group"
-      aria-label="Back to top"
-    >
-      <ArrowUp size={24} className="group-hover:-translate-y-1 transition-transform duration-300" />
-    </button>
+    <div className="fixed right-6 bottom-24 z-40 flex flex-col items-end gap-4 pointer-events-none">
+      <button
+        onClick={scrollToTop}
+        className="pointer-events-auto w-12 h-12 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl border border-white/20 dark:border-zinc-700/50 rounded-full shadow-lg flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:scale-110 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group animate-fade-in cursor-pointer"
+        aria-label="Back to top"
+      >
+        <ArrowUp size={20} className="group-hover:-translate-y-1 transition-transform duration-300" />
+      </button>
+    </div>
   );
 };
