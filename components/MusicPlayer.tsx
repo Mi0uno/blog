@@ -13,7 +13,6 @@ interface MusicPlayerProps {
 export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false, language = 'zh' }) => {
   const [isSeeking, setIsSeeking] = useState(false);
   const [isOpen, setIsOpen] = useState(initialVisible);
-  const [showPrompt, setShowPrompt] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
@@ -30,8 +29,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
   const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const currentSong = MUSIC_PLAYLIST[currentSongIndex];
-
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Persistence
   useEffect(() => {
@@ -87,16 +84,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
     });
   }, [currentSongIndex]);
   
-  // Auto-show prompt after a delay
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!isOpen && !hasInteracted) {
-        setShowPrompt(true);
-      }
-    }, 3000); // Show prompt after 3 seconds
-    return () => clearTimeout(timer);
-  }, [isOpen, hasInteracted]);
-
   useEffect(() => {
     if (audioRef.current) {
       const audio = audioRef.current;
@@ -183,15 +170,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
   const handlePrev = () => {
     setCurrentSongIndex((prev) => (prev - 1 + MUSIC_PLAYLIST.length) % MUSIC_PLAYLIST.length);
     setIsPlaying(true);
-  };
-
-  const handlePromptResponse = (accept: boolean) => {
-    setShowPrompt(false);
-    setHasInteracted(true);
-    if (accept) {
-      setIsOpen(true);
-      setIsPlaying(true);
-    }
   };
 
   const handleVolumeSliderChange = useCallback((newVal: number) => {
@@ -290,29 +268,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
           setIsLoading(false);
         }}
       />
-
-      {/* Floating Prompt Bubble */}
-      {showPrompt && !isOpen && (
-        <div className="pointer-events-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl rounded-2xl p-4 animate-bounce-subtle max-w-[220px]">
-          <p className="text-sm font-medium mb-3 text-zinc-800 dark:text-zinc-200">
-            {language === 'zh' ? '👋 来点氛围音乐？' : '👋 How about some ambient music?'}
-          </p>
-          <div className="flex gap-2 justify-end">
-            <button 
-              onClick={() => handlePromptResponse(false)}
-              className="px-3 py-1.5 text-xs text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors"
-            >
-              {language === 'zh' ? '不了' : 'No thanks'}
-            </button>
-            <button 
-              onClick={() => handlePromptResponse(true)}
-              className="px-3 py-1.5 text-xs bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity font-medium"
-            >
-              {language === 'zh' ? '阔以' : 'Sure'}
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Main Player or Floating Icon */}
       <div className="pointer-events-auto relative" ref={playerRef}>

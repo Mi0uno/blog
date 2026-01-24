@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import Matter from 'matter-js';
 import { Sidebar } from './components/Sidebar';
 import { HeroSection } from './components/HeroSection';
@@ -51,28 +52,10 @@ function App() {
   }, [location]);
 
   const handleTabChange = (tab: string) => {
-    startViewTransition(() => {
-      setActiveTab(tab);
-      if (tab === 'dashboard') {
-        navigate('/');
-      } else {
-        navigate(`/${tab}`);
-      }
-    });
-  };
-
-  const startViewTransition = (update: () => void) => {
-    // Disable view transitions on mobile to prevent flickering and performance issues
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      update();
-      return;
-    }
-
-    const anyDoc = document as any;
-    if (anyDoc && typeof anyDoc.startViewTransition === 'function') {
-      anyDoc.startViewTransition(update);
+    if (tab === 'dashboard') {
+      navigate('/');
     } else {
-      update();
+      navigate(`/${tab}`);
     }
   };
   const engineRef = useRef<any>(null);
@@ -118,12 +101,9 @@ function App() {
   };
 
   const handleHeroNavigation = (category: Category) => {
-    startViewTransition(() => {
-      setPortfolioCategory(category);
-      setActiveTab('portfolio');
-      navigate('/portfolio');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    setPortfolioCategory(category);
+    navigate('/portfolio');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   // -------------------------
@@ -716,9 +696,22 @@ function App() {
 
       {/* Main Content Area */}
       <main className="w-full pt-40 pb-32 vt-page">
-         <div key={activeTab} className="animate-fade-in">
-           {renderContent()}
-         </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            transition={{
+              type: 'spring',
+              stiffness: 260,
+              damping: 32,
+              mass: 0.9,
+            }}
+          >
+            {renderContent()}
+          </motion.div>
+        </AnimatePresence>
 
          {/* Footer */}
          <footer className="w-full max-w-[96vw] mx-auto mt-32 border-t-2 border-black dark:border-white pt-12 flex flex-col md:flex-row justify-between items-center text-sm font-light text-gray-400 dark:text-gray-500 uppercase tracking-wide gap-4 transition-colors duration-300">
