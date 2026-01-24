@@ -94,15 +94,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => setActiveTab('dashboard')}
         >
           <Logo className={`transition-colors duration-500 text-black dark:text-white ${isScrolled ? 'w-10 h-10' : 'w-12 h-12 md:w-16 md:h-16'}`} />
-          <motion.h1 
+          <motion.div
             layout="position"
-            className={`font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap`}
-            animate={{
-              fontSize: isScrolled ? '1.875rem' : '3rem',
+            className="relative flex items-center"
+            style={{ 
+              height: isScrolled ? '1.875rem' : '3rem',
+              width: isScrolled ? 'auto' : 'auto'
             }}
           >
-            mi0034
-          </motion.h1>
+            <motion.h1 
+              layout="position"
+              className={`font-black tracking-tighter uppercase text-black dark:text-white leading-none whitespace-nowrap origin-left`}
+              animate={{
+                scale: isScrolled ? 0.625 : 1, // 1.875rem / 3rem = 0.625
+              }}
+              style={{
+                fontSize: '3rem', // Fixed base size
+              }}
+              transition={springTransition}
+            >
+              mi0034
+            </motion.h1>
+          </motion.div>
         </motion.div>
 
         {/* Links Right */}
