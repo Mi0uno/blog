@@ -9,6 +9,7 @@ import { ArticleSection } from './components/ArticleSection';
 import { TimelineSection } from './components/TimelineSection';
 import { FriendsLinks } from './components/FriendsLinks';
 import { MusicPlayer } from './components/MusicPlayer';
+import { BackToTop } from './components/BackToTop';
 import { Mail, MapPin, RotateCcw, MessageSquare, Instagram, Youtube, FileText, Aperture, Github } from 'lucide-react';
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
@@ -718,7 +719,7 @@ function App() {
       {/* Floating Reset Button for Gravity - Fixed Centering Wrapper */}
       {gravityActive && (
         <div className="fixed bottom-8 left-0 w-full flex justify-center z-[1001] pointer-events-none">
-          <button 
+          <button
             onClick={resetGravity}
             className="pointer-events-auto bg-black dark:bg-white text-white dark:text-black px-8 py-4 rounded-full font-bold text-xl shadow-2xl animate-fade-in hover:scale-110 transition-transform flex items-center gap-3 cursor-pointer"
           >
@@ -727,6 +728,8 @@ function App() {
           </button>
         </div>
       )}
+
+      <BackToTop />
 
     </div>
   );
