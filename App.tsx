@@ -385,7 +385,7 @@ function App() {
               onCategorySelect={handleHeroNavigation}
               language={language}
             />
-            <PortfolioSection language={language} externalFilter={portfolioCategory} />
+            <PortfolioSection language={language} externalFilter={portfolioCategory} showStarOnly={true} />
           </>
         } />
         <Route path="/portfolio" element={

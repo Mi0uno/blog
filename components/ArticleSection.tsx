@@ -304,20 +304,20 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
             {filteredAndSortedArticles.map((article, index) => (
               <div
                 key={article.id}
-                className="group cursor-pointer reveal-on-scroll"
+                className="group cursor-pointer reveal-on-scroll ios-card"
                 style={{ transitionDelay: `${(index % 5) * 100}ms` }}
                 onClick={() => handleArticleClick(article)}
               >
-                <div className="flex flex-col md:flex-row bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden p-2 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 items-stretch h-auto">
+                <div className="flex flex-col md:flex-row bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden p-2.5 hover:shadow-xl active:shadow-md items-stretch h-auto">
                     
                     {/* Cover Image Container - Responsive aspect ratio 900:383 */}
-                    <div className="w-full md:w-[45%] aspect-[900/383] shrink-0 rounded-xl overflow-hidden relative bg-gray-100 dark:bg-gray-900 transform-gpu">
+                    <div className="w-full md:w-[45%] aspect-[900/383] shrink-0 rounded-2xl overflow-hidden relative bg-gray-100 dark:bg-gray-900 transform-gpu ios-image-container">
                         <ArticleCoverImage
                           src={article.coverImage}
                           alt={article.title}
                         />
-                       
-                        <div className="absolute top-2 left-2 bg-white/90 dark:bg-black/90 text-black dark:text-white px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md shadow-sm">
+
+                        <div className="absolute top-2 left-2 bg-white/95 dark:bg-black/95 backdrop-blur-sm text-black dark:text-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-sm ios-tag">
                           {ARTICLE_LABELS[language][article.category].split('|')[0].trim()}
                         </div>
                     </div>
@@ -326,10 +326,10 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
                     <div className="flex-grow flex flex-col p-4 md:p-6 justify-between min-w-0">
                         <div>
                             <div className="flex justify-between items-start gap-3 mb-2">
-                                <h3 className="text-lg md:text-2xl font-black text-black dark:text-white leading-snug group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-300 line-clamp-3">
+                                <h3 className="text-lg md:text-2xl font-black text-black dark:text-white leading-snug ios-title">
                                     {article.title}
                                 </h3>
-                                <div className="bg-black dark:bg-white text-white dark:text-black p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 flex-shrink-0">
+                                <div className="bg-black dark:bg-white text-white dark:text-black p-1.5 rounded-full opacity-0 group-hover:opacity-100 ios-arrow flex-shrink-0">
                                     <ArrowUpRight size={16} />
                                 </div>
                             </div>
@@ -339,7 +339,7 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ language }) => {
                                     {article.tags.map(tag => (
                                         <span
                                             key={tag}
-                                            className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                                            className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 ios-tag"
                                         >
                                             {tag}
                                         </span>

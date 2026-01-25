@@ -9,6 +9,7 @@ import { ArrowUpRight, X, Terminal, MessageCircle, IdCard, Github, ExternalLink,
 interface PortfolioSectionProps {
   language: Language;
   externalFilter?: string; // Controlled by parent if needed
+  showStarOnly?: boolean; // Only show starred projects (for homepage)
 }
 
 const GalleryImage = ({ src, alt, onClick }: { src: string, alt: string, onClick: (e: React.MouseEvent) => void }) => {
@@ -38,7 +39,7 @@ const GalleryImage = ({ src, alt, onClick }: { src: string, alt: string, onClick
   );
 };
 
-export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, externalFilter }) => {
+export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, externalFilter, showStarOnly = false }) => {
   const [filter, setFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [displayProject, setDisplayProject] = useState<Project | null>(null);
@@ -71,9 +72,9 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
   
   const categories = ['All', ...availableCategories];
 
-  const filteredProjects = filter === 'All' 
-    ? currentProjects 
-    : currentProjects.filter(p => p.category === filter);
+  const filteredProjects = filter === 'All'
+    ? (showStarOnly ? currentProjects.filter(p => p.star) : currentProjects)
+    : currentProjects.filter(p => p.category === filter && (!showStarOnly || p.star));
 
   // Handle Modal Render State for Animation
   useEffect(() => {
@@ -173,7 +174,11 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
         {filteredProjects.map((project, index) => (
           <div
             key={project.id}
-            className={`group cursor-pointer flex flex-col h-full transform-gpu reveal-on-scroll ${project.category === Category.DEV ? 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-300' : ''}`}
+            className={`group cursor-pointer flex flex-col h-full transform-gpu reveal-on-scroll ios-project-card ios-arrow-float ${
+              project.category === Category.DEV
+                ? 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-3xl p-8'
+                : ''
+            }`}
             style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             onClick={() => setSelectedProject(project)}
           >
@@ -181,14 +186,14 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
             {project.category === Category.DEV ? (
                // DEV CARD LAYOUT
                <div className="flex flex-col h-full">
-                  <div className="mb-6 w-16 h-16 bg-white dark:bg-black rounded-2xl shadow-sm flex items-center justify-center text-black dark:text-white">
+                  <div className="mb-6 w-16 h-16 bg-white dark:bg-black rounded-2xl shadow-sm flex items-center justify-center text-black dark:text-white ios-icon-container">
                     {project.icon === 'message-circle' && <MessageCircle size={32} />}
                     {project.icon === 'id-card' && <IdCard size={32} />}
                     {project.icon === 'file-text' && <FileText size={32} />}
                     {project.icon === 'film' && <Film size={32} />}
                     {!project.icon && <Terminal size={32} />}
                   </div>
-                  <h3 className="text-2xl font-black text-black dark:text-white mb-3">
+                  <h3 className="text-2xl font-black text-black dark:text-white mb-3 ios-title">
                     {project.title}
                   </h3>
                   <p className="text-gray-500 dark:text-gray-400 text-base leading-relaxed line-clamp-3 mb-6">
@@ -198,7 +203,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                      <span className="text-xs font-bold font-mono text-gray-400 uppercase tracking-wider">
                         {project.subtitle}
                      </span>
-                     <div className="bg-black dark:bg-white text-white dark:text-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                     <div className="bg-black dark:bg-white text-white dark:text-black p-2 rounded-full opacity-0 group-hover:opacity-100 ios-arrow">
                         <ArrowUpRight size={18} />
                      </div>
                   </div>
@@ -207,20 +212,20 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                // STANDARD CARD LAYOUT
                <>
                   {/* Image container */}
-                  <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 mb-6 overflow-hidden rounded-2xl relative shadow-none border border-transparent transition-all duration-500 group-hover:shadow-2xl dark:group-hover:shadow-none dark:group-hover:border-white/20 transform-gpu">
+                  <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 mb-6 overflow-hidden rounded-3xl relative ios-image-container">
                     {project.image && !project.image.includes('picsum') ? (
-                        <img 
-                          src={project.image} 
-                          alt={project.title} 
+                        <img
+                          src={project.image}
+                          alt={project.title}
                           loading="lazy"
                           decoding="async"
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
+                          className="w-full h-full object-cover ios-image"
                         />
                     ) : project.bilibiliId ? (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors duration-300">
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
                             <div className="flex flex-col items-center gap-4">
-                                <div className="w-16 h-16 rounded-full bg-[#FF6699] text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                                <div className="w-16 h-16 rounded-full bg-[#FF6699] text-white flex items-center justify-center shadow-lg ios-icon-container">
                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 ml-1"><path d="M8 5v14l11-7z"/></svg>
                                 </div>
                                 <span className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Video Preview</span>
@@ -239,23 +244,23 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                             </div>
                         </div>
                     )}
-                    
-                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white dark:bg-black dark:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg shadow-sm border border-transparent dark:border-white/10">
+
+                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/95 dark:bg-black/95 backdrop-blur-sm dark:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg shadow-sm border border-transparent dark:border-white/10 ios-tag">
                       {CATEGORY_LABELS[language][project.category] || project.category}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="flex justify-between items-start border-b-2 border-gray-100 dark:border-gray-800 pb-6 group-hover:border-black dark:group-hover:border-white transition-colors duration-300 mt-auto">
+                  <div className="flex justify-between items-start border-b-2 border-gray-100 dark:border-gray-800 pb-6 mt-auto">
                     <div className="pr-4 md:pr-8">
-                        <h3 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-4xl'} font-black text-black dark:text-white mb-2 md:mb-3 group-hover:text-gray-800 dark:group-hover:text-gray-200 leading-tight transition-colors`}>
+                        <h3 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-4xl'} font-black text-black dark:text-white mb-2 md:mb-3 ios-title leading-tight`}>
                           {project.title}
                         </h3>
-                      <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed font-medium transition-colors">
+                      <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed font-medium">
                         {project.description}
                       </p>
                     </div>
-                    <div className="bg-black dark:bg-white text-white dark:text-black p-2 md:p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 shrink-0">
+                    <div className="bg-black dark:bg-white text-white dark:text-black p-2 md:p-3 rounded-full opacity-0 group-hover:opacity-100 ios-arrow shrink-0">
                        <ArrowUpRight size={24} className="md:w-7 md:h-7" />
                     </div>
                   </div>
@@ -264,7 +269,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
                   {project.category !== Category.PHOTO && (
                     <div className="mt-4 flex flex-wrap gap-2 md:gap-3">
                        {project.tags.map(tag => (
-                         <span key={tag} className="text-[10px] md:text-xs font-bold font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider border border-gray-200 dark:border-gray-800 px-2 py-1 rounded-md">#{tag}</span>
+                         <span key={tag} className="text-[10px] md:text-xs font-bold font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider border border-gray-200 dark:border-gray-800 px-2 py-1 rounded-lg ios-tag">#{tag}</span>
                        ))}
                     </div>
                   )}

@@ -42,6 +42,7 @@ export const ARTICLE_LABELS: Record<Language, Record<string, string>> = {
 export const PROJECTS: Record<Language, Project[]> = {
   zh: PROJECT_DATA.map(p => ({
     id: p.id,
+    star: p.star,
     ...p.common,
     ...p.zh,
     // Inject bilingual title for fallback UI
@@ -52,6 +53,7 @@ export const PROJECTS: Record<Language, Project[]> = {
   })),
   en: PROJECT_DATA.map(p => ({
     id: p.id,
+    star: p.star,
     ...p.common,
     ...p.en,
     // Inject bilingual title for fallback UI
