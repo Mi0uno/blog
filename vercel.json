@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/:date*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
