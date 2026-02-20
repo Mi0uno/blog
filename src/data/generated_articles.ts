@@ -22,10 +22,106 @@ export const ARTICLES_PAGE_DATA: Record<Language, ArticlesPageContent> = {
 
 export const ARTICLE_DATA = [
   {
-    "id": "cbf0677cad59ee7ef43bc0b08a351778",
+    "id": "3be1759918813393b2bd84edd2c5df87",
     "common": {
       "category": "瞎叨be叨",
-      "link": "/articles/一切的源头“GIT”.md",
+      "link": "/articles/测试-LaTeX渲染测试.md",
+      "date": "2026-02-20",
+      "isLocal": true,
+      "tags": [
+        "测试",
+        "LaTeX",
+        "数学公式"
+      ],
+      "star": false
+    },
+    "zh": {
+      "title": "LaTeX 渲染测试"
+    },
+    "en": {
+      "title": "LaTeX 渲染测试"
+    }
+  },
+  {
+    "id": "0bd0bbbac4f03e3e0e3e539c5e0a8b83",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/安全杂谈-AI篇001：醉语风险与防护（drunk ai）.md",
+      "date": "2026-02-11",
+      "isLocal": true,
+      "tags": [
+        "网络安全",
+        "AI",
+        "AI安全",
+        "LLM安全",
+        "博客",
+        "公众号"
+      ],
+      "coverImage": "https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E5%AE%89%E5%85%A8%E6%9D%82%E8%B0%88-AI%E7%AF%87_001%EF%BC%9A%E9%86%89%E8%AF%AD%E9%A3%8E%E9%99%A9%E4%B8%8E%E9%98%B2%E6%8A%A4%EF%BC%88drunk%20ai%EF%BC%89.png",
+      "star": false
+    },
+    "zh": {
+      "title": "安全杂谈-AI篇001：醉语风险与防护（drunk ai）"
+    },
+    "en": {
+      "title": "安全杂谈-AI篇001：醉语风险与防护（drunk ai）"
+    }
+  },
+  {
+    "id": "3845544d2d4a22d94cc17038bcf855c4",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/技术解读-AI篇001：claude skills【一场AI的洪流】.md",
+      "date": "2026-02-11",
+      "isLocal": true,
+      "tags": [
+        "人工智能",
+        "AI",
+        "claude",
+        "技术解读",
+        "博客",
+        "公众号"
+      ],
+      "coverImage": "https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87001%EF%BC%9Aclaude%20skills%E3%80%90%E4%B8%80%E5%9C%BAAI%E7%9A%84%E6%B4%AA%E6%B5%81%E3%80%91.png",
+      "star": false
+    },
+    "zh": {
+      "title": "技术解读-AI篇001：claude skills【一场AI的洪流】"
+    },
+    "en": {
+      "title": "技术解读-AI篇001：claude skills【一场AI的洪流】"
+    }
+  },
+  {
+    "id": "d597fb3a46ed6f81cc6438225c33d825",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/技术解读-AI篇002：多Agent的风波.md",
+      "date": "2026-02-11",
+      "isLocal": true,
+      "tags": [
+        "人工智能",
+        "AI",
+        "技术解读",
+        "博客",
+        "公众号",
+        "MultiAgent"
+      ],
+      "coverImage": "https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87002%EF%BC%9A%E5%A4%9AAgent%E7%9A%84%E9%A3%8E%E6%B3%A2-cover.png",
+      "star": false
+    },
+    "zh": {
+      "title": "技术解读-AI篇002：多Agent的风波"
+    },
+    "en": {
+      "title": "技术解读-AI篇002：多Agent的风波"
+    }
+  },
+  {
+    "id": "bd622cd264fece90144a14f36a38a8e3",
+    "common": {
+      "category": "瞎叨be叨",
+      "link": "/articles/实战技术-开发篇001：一切的源头“GIT”.md",
       "date": "2026-01-23",
       "isLocal": true,
       "tags": [
@@ -38,119 +134,10 @@ export const ARTICLE_DATA = [
       "star": false
     },
     "zh": {
-      "title": "一切的源头“GIT”"
+      "title": "实战技术-开发篇001：一切的源头“GIT”"
     },
     "en": {
-      "title": "一切的源头“GIT”"
-    }
-  },
-  {
-    "id": "7e1c37260005834fb7dd5df25adb71a4",
-    "common": {
-      "category": "瞎叨be叨",
-      "link": "https://mp.weixin.qq.com/s/qxEsiONWBiywQXeBHuvKCg",
-      "date": "2026-01-22",
-      "isLocal": false,
-      "tags": [
-        "security",
-        "cve",
-        "telnet",
-        "vulnerability",
-        "wechat"
-      ],
-      "star": true
-    },
-    "zh": {
-      "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)"
-    },
-    "en": {
-      "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)"
-    }
-  },
-  {
-    "id": "40c2cd6b500160f38752242d11dedee4",
-    "common": {
-      "category": "瞎叨be叨",
-      "link": "/articles/article4.md",
-      "date": "2024-01-22",
-      "isLocal": true,
-      "tags": [
-        "markdown",
-        "cover",
-        "example",
-        "landscape"
-      ],
-      "coverImage": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1000&auto=format&fit=crop",
-      "star": false
-    },
-    "zh": {
-      "title": "带封面的Markdown文章示例"
-    },
-    "en": {
-      "title": "带封面的Markdown文章示例"
-    }
-  },
-  {
-    "id": "b6d93871f41dc05452c50f642718bfff",
-    "common": {
-      "category": "瞎叨be叨",
-      "link": "/articles/article3.md",
-      "date": "2023-10-03",
-      "isLocal": true,
-      "tags": [
-        "data structures",
-        "algorithms",
-        "programming"
-      ],
-      "star": false
-    },
-    "zh": {
-      "title": "数据结构简介"
-    },
-    "en": {
-      "title": "数据结构简介"
-    }
-  },
-  {
-    "id": "27d5b15f57ef97537a73e51189d8d2ad",
-    "common": {
-      "category": "瞎叨be叨",
-      "link": "/articles/article2.md",
-      "date": "2023-10-02",
-      "isLocal": true,
-      "tags": [
-        "react",
-        "javascript",
-        "frontend"
-      ],
-      "star": false
-    },
-    "zh": {
-      "title": "React组件示例"
-    },
-    "en": {
-      "title": "React组件示例"
-    }
-  },
-  {
-    "id": "80a2ca1e68250b93bc3e67d9ca1b6ba9",
-    "common": {
-      "category": "瞎叨be叨",
-      "link": "/articles/article1.md",
-      "date": "2023-10-01",
-      "isLocal": true,
-      "tags": [
-        "markdown",
-        "tutorial",
-        "example"
-      ],
-      "star": true
-    },
-    "zh": {
-      "title": "Markdown示例文章1"
-    },
-    "en": {
-      "title": "Markdown示例文章1"
+      "title": "实战技术-开发篇001：一切的源头“GIT”"
     }
   }
 ];
