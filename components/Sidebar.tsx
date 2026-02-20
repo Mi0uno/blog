@@ -1,14 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
 import { Language } from '../types';
-import { Moon, Sun, Globe, Bomb } from 'lucide-react';
+import { Moon, Sun, Globe, Bomb, Menu, X } from 'lucide-react';
 import { Logo } from './Logo';
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
-  useMotionValueEvent
+  useMotionValueEvent,
+  AnimatePresence
 } from 'motion/react';
 
 interface SidebarProps {
@@ -61,6 +62,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const items = NAV_ITEMS[language];
   const { scrollY } = useScroll();
   const ww = useWindowWidth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isMobile = ww < 768;
 
   // Continuous progress (no boolean threshold animation)
   const raw = useTransform(scrollY, [0, 90], [0, 1], { clamp: true });
@@ -91,6 +94,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // Centered pill width (fixed; not animated)
   const collapsedMax = 1024; // ~64rem
   const pillMaxWidth = Math.min(collapsedMax, Math.max(320, ww - 24));
+
+  // 移动端动画值 (必须在条件判断前定义)
+  const topBarOpacity = useTransform(p, [0, 0.3, 1], [1, 0, 0]);
+  const topBarScale = useTransform(p, [0, 1], [1, 0.95]);
+  const topBarY = useTransform(p, [0, 1], [0, -20]);
+  const fabOpacity = useTransform(p, [0, 0.3, 1], [0, 0, 1]);
+  const fabScale = useTransform(p, [0, 0.3, 1], [0.8, 0.8, 1]);
 
   // Frosted (opaque) glass palette
   const glassBg =
@@ -196,6 +206,182 @@ export const Sidebar: React.FC<SidebarProps> = ({
     />
   );
 
+  const handleNavClick = (id: string) => {
+    setActiveTab(id);
+    setMobileMenuOpen(false);
+  };
+
+  // 移动端侧边栏
+  const MobileSidebar = () => (
+    <AnimatePresence>
+      {mobileMenuOpen && (
+        <>
+          {/* 背景遮罩 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* 侧边栏 */}
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="fixed left-0 top-0 bottom-0 w-[280px] z-[70] pointer-events-auto"
+            style={{
+              backgroundColor: glassBg,
+              backgroundImage: `${highlight}, url("${noise}")`,
+              borderRight: `1px solid ${glassBorder}`
+            }}
+          >
+            {/* 头部 */}
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div
+                  className="cursor-pointer flex items-center gap-2"
+                  onClick={() => handleNavClick('dashboard')}
+                >
+                  <Logo className="text-black dark:text-white w-10 h-10" />
+                  <span className="font-black text-2xl text-black dark:text-white">mi0034</span>
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <X size={24} className="text-black dark:text-white" />
+                </button>
+              </div>
+            </div>
+
+            {/* 导航项 */}
+            <div className="p-6 space-y-2">
+              {items.map((item) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`
+                      w-full text-left px-4 py-3 rounded-xl font-bold text-lg transition-all duration-200
+                      ${isActive
+                        ? 'bg-black dark:bg-white text-white dark:text-black'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      }
+                    `}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 底部控制按钮 */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-around">
+                <button
+                  onClick={toggleLanguage}
+                  className="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white flex items-center gap-2"
+                >
+                  <Globe size={20} />
+                  <span className="text-sm font-bold">{language === 'zh' ? 'EN' : '中'}</span>
+                </button>
+
+                <button
+                  onClick={toggleTheme}
+                  className="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white"
+                >
+                  {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onTriggerGravity();
+                  }}
+                  className="p-3 rounded-full hover:bg-red-100 dark:hover:bg-red-900 transition-colors text-black dark:text-white"
+                >
+                  <Bomb size={20} className="hover:text-red-500 transition-colors" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+
+  // 移动端顶部栏
+  if (isMobile) {
+    return (
+      <>
+        {/* 顶部导航栏 */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
+          style={{
+            opacity: topBarOpacity,
+            scale: topBarScale,
+            y: topBarY
+          }}
+        >
+          <motion.nav
+            style={{
+              width: '100%',
+              paddingLeft: 16,
+              paddingRight: 16,
+              paddingTop: 16,
+              paddingBottom: 16,
+              borderBottom: `1px solid ${glassBorder}`,
+              backgroundColor: glassBg,
+              backgroundImage: `${highlight}, url("${noise}")`
+            }}
+            className="pointer-events-auto flex items-center justify-between"
+          >
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <Menu size={24} className="text-black dark:text-white" />
+            </button>
+
+            <div
+              className="cursor-pointer flex items-center gap-2"
+              onClick={() => setActiveTab('dashboard')}
+            >
+              <Logo className="text-black dark:text-white w-8 h-8" />
+              <span className="font-black text-xl text-black dark:text-white">mi0034</span>
+            </div>
+
+            <div className="w-10" />
+          </motion.nav>
+        </motion.div>
+
+        {/* 悬浮球 */}
+        <motion.button
+          onClick={() => setMobileMenuOpen(true)}
+          className="fixed top-6 left-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl"
+          style={{
+            opacity: fabOpacity,
+            scale: fabScale,
+            backgroundColor: glassBg,
+            backgroundImage: `${highlight}, url("${noise}")`,
+            border: `1px solid ${glassBorder}`,
+            pointerEvents: pillActive ? 'auto' : 'none'
+          }}
+        >
+          <Menu size={24} className="text-black dark:text-white" />
+        </motion.button>
+
+        <MobileSidebar />
+      </>
+    );
+  }
+
+  // 桌面端导航栏
   return (
     <motion.div
       className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none overflow-x-hidden"
