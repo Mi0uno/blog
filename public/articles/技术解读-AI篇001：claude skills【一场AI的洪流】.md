@@ -8,7 +8,7 @@ tags:
   - 公众号
 title: 技术解读-AI篇001：claude skills【一场AI的洪流】
 date: 2026-02-11
-category: Talk
+category: Tech
 cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87001%EF%BC%9Aclaude%20skills%E3%80%90%E4%B8%80%E5%9C%BAAI%E7%9A%84%E6%B4%AA%E6%B5%81%E3%80%91.png
 ---
 # 技术解读-AI篇001：claude skills【一场AI的洪流】

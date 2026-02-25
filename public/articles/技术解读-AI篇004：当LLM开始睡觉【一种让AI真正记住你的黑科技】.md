@@ -8,7 +8,7 @@ tags:
   - 博客
   - 公众号
   - ai记忆
-category: Talk
+category: Tech
 cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91.png
 ---
 # 当LLM开始"睡觉"：一种让AI真正记住你的黑科技

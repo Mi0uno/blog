@@ -22,9 +22,34 @@ export const ARTICLES_PAGE_DATA: Record<Language, ArticlesPageContent> = {
 
 export const ARTICLE_DATA = [
   {
+    "id": "25f14dbb545f73db9e4f52e90f89c843",
+    "common": {
+      "category": "Tech",
+      "link": "/articles/技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】.md",
+      "date": "2026-02-25",
+      "isLocal": true,
+      "tags": [
+        "人工智能",
+        "AI",
+        "技术解读",
+        "博客",
+        "公众号",
+        "ai记忆"
+      ],
+      "coverImage": "https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91.png",
+      "star": false
+    },
+    "zh": {
+      "title": "技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】"
+    },
+    "en": {
+      "title": "技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】"
+    }
+  },
+  {
     "id": "3be1759918813393b2bd84edd2c5df87",
     "common": {
-      "category": "瞎叨be叨",
+      "category": "Misc",
       "link": "/articles/测试-LaTeX渲染测试.md",
       "date": "2026-02-20",
       "isLocal": true,
@@ -45,7 +70,7 @@ export const ARTICLE_DATA = [
   {
     "id": "0bd0bbbac4f03e3e0e3e539c5e0a8b83",
     "common": {
-      "category": "瞎叨be叨",
+      "category": "Security",
       "link": "/articles/安全杂谈-AI篇001：醉语风险与防护（drunk ai）.md",
       "date": "2026-02-11",
       "isLocal": true,
@@ -70,7 +95,7 @@ export const ARTICLE_DATA = [
   {
     "id": "3845544d2d4a22d94cc17038bcf855c4",
     "common": {
-      "category": "瞎叨be叨",
+      "category": "Tech",
       "link": "/articles/技术解读-AI篇001：claude skills【一场AI的洪流】.md",
       "date": "2026-02-11",
       "isLocal": true,
@@ -95,7 +120,7 @@ export const ARTICLE_DATA = [
   {
     "id": "d597fb3a46ed6f81cc6438225c33d825",
     "common": {
-      "category": "瞎叨be叨",
+      "category": "Tech",
       "link": "/articles/技术解读-AI篇002：多Agent的风波.md",
       "date": "2026-02-11",
       "isLocal": true,
@@ -120,7 +145,7 @@ export const ARTICLE_DATA = [
   {
     "id": "bd622cd264fece90144a14f36a38a8e3",
     "common": {
-      "category": "瞎叨be叨",
+      "category": "Tech",
       "link": "/articles/实战技术-开发篇001：一切的源头“GIT”.md",
       "date": "2026-01-23",
       "isLocal": true,

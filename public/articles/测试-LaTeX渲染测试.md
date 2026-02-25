@@ -1,7 +1,7 @@
 ---
 title: LaTeX 渲染测试
 date: 2026-02-20
-category: 技术解读
+category: Misc
 tags: [测试, LaTeX, 数学公式]
 ---
 

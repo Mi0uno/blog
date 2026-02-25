@@ -8,7 +8,7 @@ tags:
   - 公众号
 title: 安全杂谈-AI篇001：醉语风险与防护（drunk ai）
 date: 2026-02-11
-category: Talk
+category: Security
 cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E5%AE%89%E5%85%A8%E6%9D%82%E8%B0%88-AI%E7%AF%87_001%EF%BC%9A%E9%86%89%E8%AF%AD%E9%A3%8E%E9%99%A9%E4%B8%8E%E9%98%B2%E6%8A%A4%EF%BC%88drunk%20ai%EF%BC%89.png
 ---
 # 安全杂谈-AI篇001：醉语风险与防护（Drunk AI）

@@ -18,20 +18,16 @@ function generateId(content) {
 }
 
 const CATEGORY_MAP = {
-  'DiT': 'DiT',
-  'LUNA': 'LUNA',
-  'Talk': '瞎叨be叨',
-  'After8': 'After8',
-  'Serenity': '山海疗养院',
-  // Variations
-  'talk': '瞎叨be叨',
-  'dit': 'DiT',
-  'luna': 'LUNA',
-  'after8': 'After8',
-  'serenity': '山海疗养院'
+  'Tech': 'Tech',
+  'Security': 'Security',
+  'Misc': 'Misc',
+  // Variations (lowercase)
+  'tech': 'Tech',
+  'security': 'Security',
+  'misc': 'Misc'
 };
 
-const DEFAULT_CATEGORY = '瞎叨be叨';
+const DEFAULT_CATEGORY = 'Misc';
 
 function scanArticles() {
   const files = fs.readdirSync(ARTICLES_DIR);
