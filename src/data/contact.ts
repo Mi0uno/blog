@@ -4,7 +4,7 @@ export interface SocialLinks {
   wechat: string;
   xiaohongshu: string;
   bilibili: string;
-  px500: string;
+  blog: string;
 }
 
 export interface ContactContent {
@@ -34,7 +34,7 @@ export const CONTACT_DATA: Record<Language, ContactContent> = {
       wechat: "mi0034的实验房",
       xiaohongshu: "mi0034",
       bilibili: "mi0034",
-      px500: "mi0034"
+      blog: "blog.mi0034.cn"
     },
     githubLabel: "GitHub",
     footerDesign: "Powered by Gemini 3 Pro"
@@ -51,7 +51,7 @@ export const CONTACT_DATA: Record<Language, ContactContent> = {
       wechat: "mi0034's Lab",
       xiaohongshu: "mi0034",
       bilibili: "mi0034",
-      px500: "mi0034"
+      blog: "blog.mi0034.cn"
     },
     githubLabel: "GitHub",
     footerDesign: "Powered by Gemini 3 Pro"

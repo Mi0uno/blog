@@ -57,11 +57,11 @@ export const BackToTop: React.FC = () => {
   }
 
   return (
-    <div className="fixed right-6 bottom-24 z-40 flex flex-col items-end gap-4 pointer-events-none">
+    <div className="fixed right-[var(--floating-x)] bottom-[var(--floating-back-bottom)] z-40 flex flex-col items-end gap-4 pointer-events-none">
       <button
         onClick={scrollToTop}
         className={`
-          pointer-events-auto w-12 h-12
+          pointer-events-auto w-[var(--floating-action-size)] h-[var(--floating-action-size)]
           bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl
           border border-white/20 dark:border-zinc-700/50
           rounded-full shadow-lg

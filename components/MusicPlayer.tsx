@@ -244,7 +244,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
   }, []);
 
   return (
-    <div className="fixed right-6 bottom-6 z-50 flex flex-col items-end gap-4 pointer-events-none">
+    <div className="fixed right-[var(--floating-x)] bottom-[var(--floating-music-bottom)] z-50 flex flex-col items-end gap-4 pointer-events-none">
       
       {/* Hidden Audio Element - Always mounted */}
       <audio 
@@ -271,7 +271,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ initialVisible = false
 
       {/* Main Player or Floating Icon */}
       <div className="pointer-events-auto relative" ref={playerRef}>
-        <div className={`relative transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isOpen && !isClosing ? 'w-[320px] h-[385px] opacity-100' : 'w-12 h-12 opacity-100'}`}>
+        <div className={`relative transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isOpen && !isClosing ? 'w-[320px] h-[385px] opacity-100' : 'w-[var(--floating-action-size)] h-[var(--floating-action-size)] opacity-100'}`}>
           {!isOpen || isClosing ? (
             <button
               onClick={() => setIsOpen(true)}

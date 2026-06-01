@@ -1,7 +1,71 @@
 [
   {
-    "title": "一切的源头“GIT”",
-    "slug": "一切的源头“GIT”",
+    "title": "技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】",
+    "slug": "技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】",
+    "date": "2026-02-25T00:00:00.000Z",
+    "tags": [
+      "人工智能",
+      "AI",
+      "技术解读",
+      "博客",
+      "公众号",
+      "ai记忆"
+    ],
+    "category": "Tech",
+    "description": "当LLM开始\"睡觉\"：一种让AI真正记住你的黑科技 你有没有过这样的经历？和AI聊了很久，它刚刚知道了你的名字、你的爱好、你的工作，然后你关闭了对话窗口——第二天，它完全忘了你是谁。 这不能怪AI。**这是大语言模型架构的先天缺陷**。 但现在，有人打破了这个困局。 --- 一个疯狂的想法：让AI像人一样\"睡觉\" 2025年11月，一位名为Gal Lahat的研究者发表了一篇关于\"睡眠学习\"（Sl",
+    "path": "/articles/技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】"
+  },
+  {
+    "title": "安全杂谈-AI篇001：醉语风险与防护（drunk ai）",
+    "slug": "安全杂谈-AI篇001：醉语风险与防护（drunk ai）",
+    "date": "2026-02-11T00:00:00.000Z",
+    "tags": [
+      "网络安全",
+      "AI",
+      "AI安全",
+      "LLM安全",
+      "博客",
+      "公众号"
+    ],
+    "category": "Security",
+    "description": "安全杂谈-AI篇001：醉语风险与防护（Drunk AI） [toc] 0x00 一个发现 2026年1月，arXiv 上出现了一篇奇怪的论文。 标题是《In Vino Veritas and Vulnerabilities: Examining LLM Safety via Drunk Language Inducement》。 翻译过来就是：酒中有真话和漏洞——通过醉语诱导检验大语言模型安全性",
+    "path": "/articles/安全杂谈-AI篇001：醉语风险与防护（drunk ai）"
+  },
+  {
+    "title": "技术解读-AI篇001：claude skills【一场AI的洪流】",
+    "slug": "技术解读-AI篇001：claude skills【一场AI的洪流】",
+    "date": "2026-02-11T00:00:00.000Z",
+    "tags": [
+      "人工智能",
+      "AI",
+      "claude",
+      "技术解读",
+      "博客",
+      "公众号"
+    ],
+    "category": "Tech",
+    "description": "技术解读-AI篇001：claude skills【一场AI的洪流】 [toc] 0x00 一个目录的改变 2025年10月，你在 Claude Code 的配置目录里发现了一个新文件夹：`.claude/skills/` 以前你写自定义指令，要么直接在设置里写，要么在对话里每次都粘贴一大段提示词。那种方式像是在给Claude传递纸条，每次都要重新解释你是谁、你要什么、你希望它怎么回应。 现在你看",
+    "path": "/articles/技术解读-AI篇001：claude skills【一场AI的洪流】"
+  },
+  {
+    "title": "技术解读-AI篇002：多Agent的风波",
+    "slug": "技术解读-AI篇002：多Agent的风波",
+    "date": "2026-02-11T00:00:00.000Z",
+    "tags": [
+      "人工智能",
+      "AI",
+      "技术解读",
+      "博客",
+      "公众号",
+      "MultiAgent"
+    ],
+    "category": "Tech",
+    "description": "[toc] 0x00 背景 你刷着技术新闻，看着各种\"智能体\"\"AI Agent\"的概念满天飞。 某天产品经理跑来跟你说：我们需要做一个多Agent协同的客服系统。你打开GitHub搜索\"multi-agent\"，跳出几十个框架：AutoGen、LangGraph、CrewAI、Swarm、MetaGPT... 哪一个才适合你的项目？ 这个问题困扰着不少开发者。多Agent框架是2024-2025",
+    "path": "/articles/技术解读-AI篇002：多Agent的风波"
+  },
+  {
+    "title": "实战技术-开发篇001：一切的源头“GIT”",
+    "slug": "实战技术-开发篇001：一切的源头“GIT”",
     "date": "2026-01-23T00:00:00.000Z",
     "tags": [
       "开发",
@@ -10,76 +74,8 @@
       "博客",
       "公众号"
     ],
-    "category": "Talk",
+    "category": "Tech",
     "description": "0x00 番外篇-什么是git --- 参考： https://developer.aliyun.com/article/761663 https://zh.wikipedia.org/zh-hans/Git 这里只是类似于小学生科学课的地方，介绍历史，文件结构，或许我们会有兴趣，如果不想看，可以直接跳跃到第一章节(0x01)我们应该看看伟大的维基百科不是吗 一个$1软件，最初由$1创作，于200",
-    "path": "/articles/一切的源头“GIT”"
-  },
-  {
-    "title": "CVE-2026-24061：一个“复古味”十足的 Telnetd 远程认证绕过 (附排查与加固清单)",
-    "slug": "article5",
-    "date": "2026-01-22T00:00:00.000Z",
-    "tags": [
-      "security",
-      "cve",
-      "telnet",
-      "vulnerability",
-      "wechat"
-    ],
-    "category": "Talk",
-    "description": "这次的主角就是Telnetd。 CVE-2026-24061 指向 GNU InetUtils 的 telnetd：在某些条件下，攻击者可以远程绕过认证，直接进入系统登录流程，风险等级很难不拉满。 这篇文章只讲原理、影响与防守；不提供可以直接复现的攻击命令/步骤。",
-    "path": "/articles/article5"
-  },
-  {
-    "title": "带封面的Markdown文章示例",
-    "slug": "article4",
-    "date": "2024-01-22T00:00:00.000Z",
-    "tags": [
-      "markdown",
-      "cover",
-      "example",
-      "landscape"
-    ],
-    "category": "Talk",
-    "description": "带封面的文章示例 这是一篇带有封面图片的Markdown文章示例。 封面图片 封面图片来自 $1，展示了壮丽的山脉景色。 在文章列表中，这篇文章应该会显示上面配置的封面图片。 内容测试 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolo",
-    "path": "/articles/article4"
-  },
-  {
-    "title": "数据结构简介",
-    "slug": "article3",
-    "date": "2023-10-03T00:00:00.000Z",
-    "tags": [
-      "data structures",
-      "algorithms",
-      "programming"
-    ],
-    "category": "Uncategorized",
-    "description": "数据结构简介 介绍常见的数据结构。 代码块 ```python Python 中的列表 my_list = [1, 2, 3] print(my_list) ``` 数学公式 二分查找的时间复杂度：$O(\\log n)$ 表格 | 数据结构 | 时间复杂度 | |----------|------------| | 数组 | O(1) | | 链表 | O(n) | | 哈希表 | O(1) | ",
-    "path": "/articles/article3"
-  },
-  {
-    "title": "React组件示例",
-    "slug": "article2",
-    "date": "2023-10-02T00:00:00.000Z",
-    "tags": [
-      "react",
-      "javascript",
-      "frontend"
-    ],
-    "category": "Uncategorized",
-    "description": "React组件示例 介绍如何创建一个简单的React组件。 代码块 ```jsx import React from 'react'; function App() { return ( <div> <h1>Hello, React!</h1> </div> ); } export default App; ``` 数学公式 斐波那契数列：$F_n = F_{n-1} + F_{n-2}$ 表格 ",
-    "path": "/articles/article2"
-  },
-  {
-    "title": "Markdown示例文章1",
-    "slug": "article1",
-    "date": "2023-10-01T00:00:00.000Z",
-    "tags": [
-      "markdown",
-      "tutorial",
-      "example"
-    ],
-    "category": "Uncategorized",
-    "description": "Markdown示例文章1 这是第一篇示例文章，展示Markdown的各种功能。 代码块 这是一个JavaScript代码块： ```javascript function hello() { console.log('Hello, World!'); } hello(); ``` 数学公式 爱因斯坦的质能方程：$E = mc^2$ 或者更复杂的： $$ \\int_{-\\infty}^{\\inft",
-    "path": "/articles/article1"
+    "path": "/articles/实战技术-开发篇001：一切的源头“GIT”"
   }
 ]

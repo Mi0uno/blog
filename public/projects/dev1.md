@@ -5,7 +5,7 @@ category: Development
 image: ''
 icon: message-circle
 websiteUrl: https://wechat-msganalysis-krgkfhfdcxwmtwst4jc4bw.streamlit.app/
-githubUrl: https://github.com/mi0034/WeChat-MsgAnalysis
+githubUrl: ''
 title_zh: 微信聊天记录数据分析
 subtitle_zh: Python / Streamlit
 description_zh: 对json格式的聊天记录进行完整的分析，包含时段、内容和互动模式。

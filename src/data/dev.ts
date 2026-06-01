@@ -13,7 +13,6 @@ export const DEV_DATA: Project[] = [
       image: '',
       icon: 'message-circle',
       websiteUrl: 'https://wechat-msganalysis-krgkfhfdcxwmtwst4jc4bw.streamlit.app/',
-      githubUrl: 'https://github.com/mi0034/WeChat-MsgAnalysis',
     },
     zh: {
       title: '微信聊天记录数据分析',
@@ -33,30 +32,29 @@ export const DEV_DATA: Project[] = [
     }
   },
   {
-    id: 'dev1',
-    star: false,
+    id: 'dev2',
+    star: true,
     common: {
       category: 'Development',
-      image: '',
-      icon: 'message-circle',
-      websiteUrl: 'https://wechat-msganalysis-krgkfhfdcxwmtwst4jc4bw.streamlit.app/',
-      githubUrl: 'https://github.com/mi0034/WeChat-MsgAnalysis',
+      image: 'https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/meowhide_banner_1825x550.png',
+      icon: 'shield',
+      githubUrl: 'https://github.com/Mi0uno/MeowHide_Browser',
     },
     zh: {
-      title: '微信聊天记录数据分析',
-      subtitle: 'Python / Streamlit',
-      description: '对json格式的聊天记录进行完整的分析，包含时段、内容和互动模式。',
+      title: 'MeowHide 喵隐浏览器',
+      subtitle: 'Electron / React / TypeScript',
+      description: '全功能反检测指纹浏览器，专为隐私保护、反追踪和多账户管理设计，支持全维度指纹伪装与自动化 API。',
       role: '全栈开发',
-      tags: ['Python', 'Streamlit', '数据分析'],
-      roleDetail: "独立完成后端数据处理逻辑与前端可视化界面开发。",
+      tags: ['Electron', 'React', 'TypeScript', '隐私保护', '指纹伪装'],
+      roleDetail: "独立完成桌面应用架构设计、指纹引擎开发、浏览器控制系统、代理管理、Cookie 管理及自动化 API 服务。",
     },
     en: {
-      title: 'WeChat Msg Analysis',
-      subtitle: 'Python / Streamlit',
-      description: 'Comprehensive analysis of JSON chat records, including time slots, content, and interaction patterns.',
+      title: 'MeowHide Browser',
+      subtitle: 'Electron / React / TypeScript',
+      description: 'Full-featured anti-detection fingerprint browser designed for privacy protection, anti-tracking, and multi-account management with comprehensive fingerprint spoofing and automation API.',
       role: 'Full Stack Developer',
-      tags: ['Python', 'Streamlit', 'Data Analysis'],
-      roleDetail: "Independently completed backend data processing logic and frontend visualization interface development.",
+      tags: ['Electron', 'React', 'TypeScript', 'Privacy Protection', 'Fingerprint Spoofing'],
+      roleDetail: "Independently completed desktop application architecture, fingerprint engine development, browser control system, proxy management, cookie management, and automation API service.",
     }
   }
 ];

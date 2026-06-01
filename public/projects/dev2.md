@@ -2,7 +2,7 @@
 id: dev2
 star: true
 category: Development
-image: 'https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/meowhide_banner_1825x550.png'
+image: 'https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/meowhide_banner_1825x550.png'
 icon: shield
 websiteUrl: ''
 githubUrl: https://github.com/Mi0uno/MeowHide_Browser

@@ -20,7 +20,7 @@
 
 ### 文件夹结构
 ```
-LuN3cy-main/
+mi0uno-blog/
 ├── public/
 │   └── articles/ (存储.md文件)
 │       ├── article1.md

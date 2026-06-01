@@ -26,8 +26,8 @@ export const FRIENDS_DATA: Record<Language, FriendsPageContent> = {
     myProjects: [
       {
         id: 'p1',
-        title: 'LuN3cy Blog',
-        url: 'https://github.com/LuN3cy/LuN3cy-main',
+        title: 'Mi0uno Blog',
+        url: 'https://github.com/Mi0uno/blog',
         description: '本站源码，基于 React + Vite + TailwindCSS 构建。',
         avatar: '/logo.svg'
       }
@@ -50,8 +50,8 @@ export const FRIENDS_DATA: Record<Language, FriendsPageContent> = {
     myProjects: [
       {
         id: 'p1',
-        title: 'LuN3cy Blog',
-        url: 'https://github.com/LuN3cy/LuN3cy-main',
+        title: 'Mi0uno Blog',
+        url: 'https://github.com/Mi0uno/blog',
         description: 'Source code of this site, built with React + Vite + TailwindCSS.',
         avatar: '/logo.svg'
       }

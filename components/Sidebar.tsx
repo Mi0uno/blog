@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { NAV_ITEMS } from '../src/data/navigation';
 import { Language } from '../types';
-import { Moon, Sun, Globe, Bomb, Menu, X } from 'lucide-react';
+import { Moon, Sun, Globe, Bomb, Menu, X, Home, Briefcase, FileText, Link as LinkIcon, Mail } from 'lucide-react';
 import { Logo } from './Logo';
 import {
   motion,
@@ -50,6 +50,14 @@ function noiseDataURI(opacity = 0.06) {
   return `data:image/svg+xml,${svg}`;
 }
 
+const navIconMap = {
+  dashboard: Home,
+  portfolio: Briefcase,
+  articles: FileText,
+  friends: LinkIcon,
+  contact: Mail
+};
+
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
@@ -69,17 +77,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const raw = useTransform(scrollY, [0, 90], [0, 1], { clamp: true });
   const p = useSpring(raw, { stiffness: 260, damping: 32, mass: 0.9 });
 
-  // wrapper translateY (avoid padding/layout)
-  const y = useTransform(p, [0, 1], [0, 24]);
-
   // Cross-fade (compositor only)
-  const topOpacity = useTransform(p, [0, 0.7, 1], [1, 0.2, 0]);
-  const topScale = useTransform(p, [0, 1], [1, 0.98]);
-  const topY = useTransform(p, [0, 1], [0, -6]);
+  const topOpacity = useTransform(p, [0, 0.55, 1], [1, 0.12, 0]);
+  const topScale = useTransform(p, [0, 1], [1, 0.96]);
+  const topY = useTransform(p, [0, 1], [0, -24]);
 
-  const pillOpacity = useTransform(p, [0, 0.25, 1], [0, 0.6, 1]);
-  const pillScale = useTransform(p, [0, 1], [0.985, 1]);
-  const pillY = useTransform(p, [0, 1], [6, 0]);
+  const dockOpacity = useTransform(p, [0, 0.42, 1], [0, 0, 1]);
+  const dockScale = useTransform(p, [0, 1], [0.86, 1]);
+  const dockY = useTransform(p, [0, 1], [24, 0]);
 
   // Enable pointer events only on the visually active layer
   const [pillActive, setPillActive] = useState(false);
@@ -90,10 +95,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return prev;
     });
   });
-
-  // Centered pill width (fixed; not animated)
-  const collapsedMax = 1024; // ~64rem
-  const pillMaxWidth = Math.min(collapsedMax, Math.max(320, ww - 24));
 
   // 移动端动画值 (必须在条件判断前定义)
   const topBarOpacity = useTransform(p, [0, 0.3, 1], [1, 0, 0]);
@@ -210,6 +211,88 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setActiveTab(id);
     setMobileMenuOpen(false);
   };
+
+  const CompactDock = () => (
+    <motion.nav
+      initial={false}
+      className="fixed right-[var(--floating-x)] bottom-[var(--floating-nav-bottom)] z-40 pointer-events-auto flex w-[var(--floating-action-size)] max-h-[calc(100vh-var(--floating-nav-bottom)-2.5rem)] flex-col items-center gap-1 overflow-y-auto rounded-[1.5rem] border p-[3px] no-scrollbar"
+      style={{
+        opacity: dockOpacity,
+        scale: dockScale,
+        y: dockY,
+        borderColor: glassBorder,
+        willChange: 'transform, opacity',
+        pointerEvents: pillActive ? 'auto' : 'none'
+      }}
+      aria-label={language === 'zh' ? '快速导航' : 'Quick navigation'}
+    >
+      <GlassPlate radius={24} />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          borderRadius: 24,
+          boxShadow:
+            theme === 'dark'
+              ? 'inset 0 1px 0 rgba(255,255,255,0.10)'
+              : 'inset 0 1px 0 rgba(255,255,255,0.70)'
+        }}
+      />
+
+      {items.map((item) => {
+        const Icon = navIconMap[item.id as keyof typeof navIconMap] || Home;
+        const isActive = activeTab === item.id;
+
+        return (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`
+              group/nav relative flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200
+              ${isActive
+                ? 'bg-black text-white dark:bg-white dark:text-black'
+                : 'text-gray-500 hover:bg-black/5 hover:text-black dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white'
+              }
+            `}
+            title={item.label}
+            aria-label={item.label}
+          >
+            <Icon size={19} strokeWidth={2.3} />
+            <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-lg bg-black px-2.5 py-1 text-xs font-bold text-white opacity-0 shadow-lg translate-x-1 transition-all duration-200 group-hover/nav:translate-x-0 group-hover/nav:opacity-100 dark:bg-white dark:text-black">
+              {item.label}
+            </span>
+          </button>
+        );
+      })}
+
+      <div className="my-1 h-px w-8 bg-gray-200 dark:bg-gray-700" />
+
+      <button
+        onClick={toggleLanguage}
+        className="group/nav relative flex h-10 w-10 items-center justify-center rounded-full text-[11px] font-black text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-black dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
+        title="Switch Language"
+        aria-label="Switch Language"
+      >
+        {language === 'zh' ? 'EN' : '中'}
+      </button>
+      <button
+        onClick={toggleTheme}
+        className="group/nav relative flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-black dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
+        title="Toggle Theme"
+        aria-label="Toggle Theme"
+      >
+        {theme === 'light' ? <Moon size={19} /> : <Sun size={19} />}
+      </button>
+      <button
+        onClick={onTriggerGravity}
+        className="group/nav relative flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition-all duration-200 hover:bg-red-50 hover:text-red-500 dark:text-gray-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
+        title="Boom!"
+        aria-label="Boom!"
+      >
+        <Bomb size={19} />
+      </button>
+    </motion.nav>
+  );
 
   // 移动端侧边栏
   const MobileSidebar = () => (
@@ -343,6 +426,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <button
               onClick={() => setMobileMenuOpen(true)}
+              aria-label={language === 'zh' ? '打开导航' : 'Open navigation'}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               <Menu size={24} className="text-black dark:text-white" />
@@ -363,17 +447,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* 悬浮球 */}
         <motion.button
           onClick={() => setMobileMenuOpen(true)}
-          className="fixed top-6 left-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl"
+          aria-label={language === 'zh' ? '打开导航' : 'Open navigation'}
+          className="group fixed right-[var(--floating-x)] bottom-[var(--floating-nav-bottom)] z-40 w-[var(--floating-action-size)] h-[var(--floating-action-size)] rounded-full flex items-center justify-center bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl border border-white/20 dark:border-zinc-700/50 shadow-lg text-zinc-600 dark:text-zinc-400 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer"
           style={{
             opacity: fabOpacity,
             scale: fabScale,
-            backgroundColor: glassBg,
-            backgroundImage: `${highlight}, url("${noise}")`,
-            border: `1px solid ${glassBorder}`,
             pointerEvents: pillActive ? 'auto' : 'none'
           }}
         >
-          <Menu size={24} className="text-black dark:text-white" />
+          <Menu size={20} className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" />
         </motion.button>
 
         <MobileSidebar />
@@ -383,88 +465,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // 桌面端导航栏
   return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none overflow-x-hidden"
-      style={{ y }}
-    >
-      {/* ===== TOP NAV (full width) ===== */}
-      <motion.nav
-        initial={false}
-        style={{
-          opacity: topOpacity,
-          scale: topScale,
-          y: topY,
-          width: '100%',
-          maxWidth: '100%',
-          borderRadius: 0,
-          paddingLeft: 24,
-          paddingRight: 24,
-          paddingTop: 24,
-          paddingBottom: 24,
-          overflow: 'hidden',
-          willChange: 'transform, opacity',
-          transform: 'translateZ(0)',
-          pointerEvents: pillActive ? 'none' : 'auto'
-        }}
-        className="pointer-events-auto relative flex items-center justify-between box-border"
-      >
-        <LeftLogo />
-        <RightContent />
-      </motion.nav>
-
-      {/* ===== PILL NAV (centered) ===== */}
-      <motion.nav
-        initial={false}
-        style={{
-          opacity: pillOpacity,
-          scale: pillScale,
-          y: pillY,
-
-          position: 'absolute',
-          left: '50%',
-          top: 0,
-
-          // ✅ always centered
-          x: '-50%',
-
-          width: '100%',
-          maxWidth: pillMaxWidth,
-
-          borderRadius: 99999,
-          paddingLeft: 40,
-          paddingRight: 40,
-          paddingTop: 16,
-          paddingBottom: 16,
-
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: glassBorder,
-
-          overflow: 'hidden',
-          willChange: 'transform, opacity',
-          pointerEvents: pillActive ? 'auto' : 'none'
-        }}
-        // ✅ No shadow
-        className="pointer-events-auto relative flex items-center justify-between box-border"
-      >
-        <GlassPlate radius={99999} />
-
-        {/* subtle inner highlight (still no outer shadow) */}
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
+    <>
+      <motion.div className="fixed top-0 left-0 right-0 z-50 pointer-events-none overflow-x-hidden">
+        {/* ===== TOP NAV (full width) ===== */}
+        <motion.nav
+          initial={false}
           style={{
-            borderRadius: 99999,
-            boxShadow:
-              theme === 'dark'
-                ? 'inset 0 1px 0 rgba(255,255,255,0.10)'
-                : 'inset 0 1px 0 rgba(255,255,255,0.70)'
+            opacity: topOpacity,
+            scale: topScale,
+            y: topY,
+            width: '100%',
+            maxWidth: '100%',
+            borderRadius: 0,
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 24,
+            paddingBottom: 24,
+            overflow: 'hidden',
+            willChange: 'transform, opacity',
+            transform: 'translateZ(0)',
+            pointerEvents: pillActive ? 'none' : 'auto'
           }}
-        />
+          className="pointer-events-auto relative flex items-center justify-between box-border"
+        >
+          <LeftLogo />
+          <RightContent />
+        </motion.nav>
+      </motion.div>
 
-        <LeftLogo />
-        <RightContent />
-      </motion.nav>
-    </motion.div>
+      <CompactDock />
+    </>
   );
 };

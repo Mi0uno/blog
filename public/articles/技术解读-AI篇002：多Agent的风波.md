@@ -9,7 +9,7 @@ tags:
   - 公众号
   - MultiAgent
 category: Tech
-cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87002%EF%BC%9A%E5%A4%9AAgent%E7%9A%84%E9%A3%8E%E6%B3%A2-cover.png
+cover: https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87002%EF%BC%9A%E5%A4%9AAgent%E7%9A%84%E9%A3%8E%E6%B3%A2-cover.png
 ---
 [toc]
 

@@ -9,7 +9,7 @@ tags:
   - 公众号
   - ai记忆
 category: Tech
-cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91.png
+cover: https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91.png
 ---
 # 当LLM开始"睡觉"：一种让AI真正记住你的黑科技
 
@@ -41,7 +41,7 @@ cover: https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/%E6%8A%80%E6%9C%AF%E8%A7
 
 现在的AI模型，无论多强大，都面临一个根本问题：**它们没有真正的"记忆"**。
 
-![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203322615.png](https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203322615.png)
+![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203322615.png](https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203322615.png)
 > 图：主流LLM的上下文窗口容量对比。虽然窗口在不断扩大，但"记住"和"能用"是两码事——信息只是暂存在内存里，并没有变成模型自身的能力。
 
 当你和ChatGPT聊天时，它之所以"认识"你，是因为你把信息放在了prompt里——也就是上下文窗口（Context Window）。这个窗口就像一块黑板，写满了就擦掉，擦掉了就忘了。
@@ -84,7 +84,7 @@ Gal Lahat的解决方案既简单又大胆：**向生物学学习**。
 
 这就是为什么睡眠对记忆如此重要——它不仅是在"复习"，更是在"预演"。
 
-![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203335382.png](https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203335382.png)
+![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203335382.png](https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203335382.png)
 > 图：人脑的记忆处理流程。白天记录经验（Encoding），睡眠期间进行记忆巩固（Consolidation），最终存入长期记忆（Storage）。这正是Sleep-Based Learning的理论基石。
 
 ---
@@ -105,7 +105,7 @@ Wake (清醒) → Sleep (睡眠) → Memory Consolidation (记忆巩固) → Wak
 
 ### 阶段二：Sleep（睡眠）—— 生成"梦境"
 
-![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203404663.png](https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203404663.png)
+![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203404663.png](https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203404663.png)
 > 图：Sleep-Based Learning的核心架构。Wake阶段与用户对话，Sleep阶段生成"梦境"（合成未来场景），Consolidation阶段混合训练——这正是让AI学会"记住"的关键。
 
 这是整个架构的核心创新。
@@ -131,7 +131,7 @@ Wake (清醒) → Sleep (睡眠) → Memory Consolidation (记忆巩固) → Wak
 
 ### 阶段三：Memory Consolidation（记忆巩固）—— 混合训练
 
-![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203417245.png](https://cdn.jsdelivr.net/gh/klopiop/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203417245.png)
+![IMG-技术解读-AI篇004：当LLM开始睡觉【一种让AI真正记住你的黑科技】-20260225203417245.png](https://cdn.jsdelivr.net/gh/Mi0uno/Picture/blog/IMG-%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB-AI%E7%AF%87004%EF%BC%9A%E5%BD%93LLM%E5%BC%80%E5%A7%8B%E7%9D%A1%E8%A7%89%E3%80%90%E4%B8%80%E7%A7%8D%E8%AE%A9AI%E7%9C%9F%E6%AD%A3%E8%AE%B0%E4%BD%8F%E4%BD%A0%E7%9A%84%E9%BB%91%E7%A7%91%E6%8A%80%E3%80%91-20260225203417245.png)
 > 图：防止灾难性遗忘的核心——混合批次训练。50%基础数据+30%旧梦境+20%新梦境，确保模型在学习新知识的同时不忘记老本行。
 
 关键来了。

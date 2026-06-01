@@ -12,7 +12,7 @@ import { FriendsLinks } from './components/FriendsLinks';
 import { MusicPlayer } from './components/MusicPlayer';
 import { BackToTop } from './components/BackToTop';
 import { SmoothScroll } from './src/components/SmoothScroll';
-import { Mail, MapPin, RotateCcw, MessageSquare, Instagram, Youtube, FileText, Aperture, Github } from 'lucide-react';
+import { Mail, MapPin, RotateCcw, MessageSquare, Instagram, Youtube, FileText, Github } from 'lucide-react';
 import { useScrollReveal } from './src/hooks/useScrollReveal';
 import { NAV_ITEMS } from './src/data/navigation';
 import { CONTACT_DATA } from './src/data/contact';
@@ -25,10 +25,20 @@ interface ExplodedElementData {
   originalStyle: string;
 }
 
+const getActiveTabFromPath = (pathname: string) => {
+  const path = pathname.substring(1);
+
+  if (path === '') return 'dashboard';
+  if (['portfolio', 'articles', 'friends', 'contact'].includes(path)) return path;
+  if (path.match(/^\d{4}-\d{2}-\d{2}\/.+/)) return 'articles';
+
+  return 'dashboard';
+};
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const activeTab = getActiveTabFromPath(location.pathname);
   const [language, setLanguage] = useState<Language>('zh');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
@@ -37,19 +47,6 @@ function App() {
   const [gravityActive, setGravityActive] = useState(false);
 
   useScrollReveal();
-
-  // Sync activeTab with URL path
-  useEffect(() => {
-    const path = location.pathname.substring(1); // remove leading slash
-    if (path === '') {
-      setActiveTab('dashboard');
-    } else if (['portfolio', 'articles', 'friends', 'contact'].includes(path)) {
-      setActiveTab(path);
-    } else if (path.match(/^\d{4}-\d{2}-\d{2}\/.+/)) {
-      // Article detail route
-      setActiveTab('articles');
-    }
-  }, [location]);
 
   const handleTabChange = (tab: string) => {
     if (tab === 'dashboard') {
@@ -87,10 +84,10 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Scroll to top when activeTab changes
+  // Scroll to top when the routed page changes
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [activeTab]);
+  }, [location.pathname]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -375,9 +372,9 @@ function App() {
 
   const content = CONTACT_DATA[language];
 
-  const renderContent = () => {
+  const renderContent = (routeLocation = location) => {
     return (
-      <Routes>
+      <Routes location={routeLocation}>
         <Route path="/" element={
           <>
             <HeroSection
@@ -483,7 +480,7 @@ function App() {
                       {language === 'zh' ? '公众号' : 'WeChat'}
                     </h3>
                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.wechat || 'Lun3cy'}
+                      {content.socials?.wechat || 'mi0034'}
                     </p>
                     
                     {/* Glassmorphism Tooltip */}
@@ -533,7 +530,7 @@ function App() {
                       {language === 'zh' ? '小红书' : 'RED'}
                     </h3>
                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.xiaohongshu || 'Lun3cy'}
+                      {content.socials?.xiaohongshu || 'mi0034'}
                     </p>
 
                     {/* Glassmorphism Tooltip */}
@@ -583,7 +580,7 @@ function App() {
                       Bilibili
                     </h3>
                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.bilibili || 'Lun3cy'}
+                      {content.socials?.bilibili || 'mi0034'}
                     </p>
 
                     {/* Glassmorphism Tooltip */}
@@ -599,10 +596,10 @@ function App() {
                     </div>
                  </div>
 
-                 {/* Socials - 500px */}
+                 {/* Socials - Blog */}
                  <div
                     className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] hover:border-black dark:hover:border-white transition-colors duration-300 group cursor-pointer relative"
-                    onClick={() => window.open('https://500px.com.cn/LuN3cy', '_blank')}
+                    onClick={() => window.open('https://blog.mi0034.cn', '_blank')}
                     onMouseEnter={(e) => {
                        const tooltip = document.getElementById('px-tooltip');
                        if (tooltip) {
@@ -628,12 +625,12 @@ function App() {
                        }
                     }}
                  >
-                    <Aperture size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
+                    <FileText size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
                     <h3 className="text-2xl font-bold mb-2 text-black dark:text-white transition-colors duration-300">
-                      500px
+                      {language === 'zh' ? '博客' : 'Blog'}
                     </h3>
                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      {content.socials?.px500 || 'LuN3cy'}
+                      {content.socials?.blog || 'blog.mi0034.cn'}
                     </p>
 
                     {/* Glassmorphism Tooltip */}
@@ -644,7 +641,7 @@ function App() {
                     >
                        <p className="text-sm font-bold text-black dark:text-white opacity-80 px-4 text-center">
                           Click to view profile<br/>
-                          <span className="text-xs opacity-50 font-mono">500px.com.cn</span>
+                          <span className="text-xs opacity-50 font-mono">blog.mi0034.cn</span>
                        </p>
                     </div>
                  </div>
@@ -652,7 +649,7 @@ function App() {
                  {/* GitHub */}
                  <div
                     className="block p-12 border-2 border-gray-100 dark:border-gray-800 rounded-[2rem] relative group cursor-pointer hover:border-black dark:hover:border-white transition-colors duration-300"
-                    onClick={() => window.open('https://github.com/LuN3cy', '_blank')}
+                    onClick={() => window.open('https://github.com/Mi0uno', '_blank')}
                  >
                     <Github size={48} className="mx-auto mb-6 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
                     {/* Custom Floating Color for Github Icon on Hover */}
@@ -666,7 +663,7 @@ function App() {
                       {content.githubLabel}
                     </h3>
                     <p className="text-lg opacity-70 text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                      @LuN3cy
+                      @Mi0uno
                     </p>
                  </div>
               </div>
@@ -696,20 +693,19 @@ function App() {
 
       {/* Main Content Area */}
       <main className="w-full pt-40 pb-32 vt-page">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            key={location.pathname}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{
-              type: 'spring',
-              stiffness: 260,
-              damping: 32,
-              mass: 0.9,
+              duration: 0.26,
+              ease: [0.16, 1, 0.3, 1],
             }}
+            style={{ willChange: 'opacity, transform' }}
           >
-            {renderContent()}
+            {renderContent(location)}
           </motion.div>
         </AnimatePresence>
 

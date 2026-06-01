@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { PROJECTS, CATEGORY_LABELS } from '../constants';
 import { Category, Language, Project } from '../types';
 import { PHOTOGRAPHY_GALLERY } from '../src/data/photography';
-import { ArrowUpRight, X, Terminal, MessageCircle, IdCard, Github, ExternalLink, ChevronLeft, ChevronRight, FileText, Film } from 'lucide-react';
+import { ArrowUpRight, X, Terminal, MessageCircle, IdCard, Github, ExternalLink, ChevronLeft, ChevronRight, FileText, Film, Shield, Palette, Image as ImageIcon, Camera, Code2 } from 'lucide-react';
 
 interface PortfolioSectionProps {
   language: Language;
@@ -35,6 +35,47 @@ const GalleryImage = ({ src, alt, onClick }: { src: string, alt: string, onClick
         onLoad={() => setIsLoaded(true)}
       />
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200 z-20"></div>
+    </div>
+  );
+};
+
+const getProjectIcon = (project: Project) => {
+  switch (project.icon) {
+    case 'message-circle':
+      return MessageCircle;
+    case 'id-card':
+      return IdCard;
+    case 'file-text':
+      return FileText;
+    case 'film':
+      return Film;
+    case 'shield':
+      return Shield;
+    case 'code':
+      return Code2;
+    case 'image':
+      return ImageIcon;
+    case 'camera':
+      return Camera;
+    case 'palette':
+      return Palette;
+    case 'terminal':
+      return Terminal;
+    default:
+      if (project.category === Category.DESIGN) return Palette;
+      if (project.category === Category.VIDEO) return Film;
+      if (project.category === Category.PHOTO) return Camera;
+      if (project.category === Category.DEV) return Terminal;
+      return Terminal;
+  }
+};
+
+const ProjectIconBadge = ({ project }: { project: Project }) => {
+  const Icon = getProjectIcon(project);
+
+  return (
+    <div className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 bg-white/95 dark:bg-black/95 backdrop-blur-sm text-black dark:text-white rounded-xl shadow-sm border border-transparent dark:border-white/10 flex items-center justify-center ios-icon-container">
+      <Icon size={20} strokeWidth={2.4} className="md:w-6 md:h-6" aria-hidden="true" />
     </div>
   );
 };
@@ -174,106 +215,69 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ language, ex
         {filteredProjects.map((project, index) => (
           <div
             key={project.id}
-            className={`group cursor-pointer flex flex-col h-full transform-gpu reveal-on-scroll ios-project-card ios-arrow-float ${
-              project.category === Category.DEV
-                ? 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-3xl p-8'
-                : ''
-            }`}
+            className="group cursor-pointer flex flex-col h-full transform-gpu reveal-on-scroll ios-project-card ios-arrow-float"
             style={{ transitionDelay: `${(index % 4) * 100}ms` }}
             onClick={() => setSelectedProject(project)}
           >
-            
-            {project.category === Category.DEV ? (
-               // DEV CARD LAYOUT
-               <div className="flex flex-col h-full">
-                  <div className="mb-6 w-16 h-16 bg-white dark:bg-black rounded-2xl shadow-sm flex items-center justify-center text-black dark:text-white ios-icon-container">
-                    {project.icon === 'message-circle' && <MessageCircle size={32} />}
-                    {project.icon === 'id-card' && <IdCard size={32} />}
-                    {project.icon === 'file-text' && <FileText size={32} />}
-                    {project.icon === 'film' && <Film size={32} />}
-                    {!project.icon && <Terminal size={32} />}
+            {/* Image container */}
+            <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 mb-6 overflow-hidden rounded-3xl relative ios-image-container">
+              {project.image && !project.image.includes('picsum') ? (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover ios-image"
+                  />
+              ) : project.bilibiliId ? (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
+                      <div className="flex flex-col items-center gap-4">
+                          <div className="w-16 h-16 rounded-full bg-[#FF6699] text-white flex items-center justify-center shadow-lg ios-icon-container">
+                             <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 ml-1"><path d="M8 5v14l11-7z"/></svg>
+                          </div>
+                          <span className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Video Preview</span>
+                      </div>
                   </div>
-                  <h3 className="text-2xl font-black text-black dark:text-white mb-3 ios-title">
+              ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-black p-8 text-center">
+                      <div>
+                          <h4 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'} font-black text-gray-500 dark:text-gray-300 mb-2 leading-tight`}>
+                              {project.title}<br/>
+                              <span className="text-lg md:text-xl font-normal opacity-70">{project.subtitle}</span>
+                          </h4>
+                      </div>
+                  </div>
+              )}
+
+              <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/95 dark:bg-black/95 backdrop-blur-sm dark:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg shadow-sm border border-transparent dark:border-white/10 ios-tag">
+                {CATEGORY_LABELS[language][project.category] || project.category}
+              </div>
+              <ProjectIconBadge project={project} />
+            </div>
+
+            {/* Content */}
+            <div className="flex justify-between items-start border-b-2 border-gray-100 dark:border-gray-800 pb-6 mt-auto">
+              <div className="pr-4 md:pr-8">
+                  <h3 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-4xl'} font-black text-black dark:text-white mb-2 md:mb-3 ios-title leading-tight`}>
                     {project.title}
                   </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-base leading-relaxed line-clamp-3 mb-6">
-                    {project.description}
-                  </p>
-                  <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800 w-full flex justify-between items-center">
-                     <span className="text-xs font-bold font-mono text-gray-400 uppercase tracking-wider">
-                        {project.subtitle}
-                     </span>
-                     <div className="bg-black dark:bg-white text-white dark:text-black p-2 rounded-full opacity-0 group-hover:opacity-100 ios-arrow">
-                        <ArrowUpRight size={18} />
-                     </div>
-                  </div>
-               </div>
-            ) : (
-               // STANDARD CARD LAYOUT
-               <>
-                  {/* Image container */}
-                  <div className="w-full aspect-[4/3] bg-gray-100 dark:bg-gray-800 mb-6 overflow-hidden rounded-3xl relative ios-image-container">
-                    {project.image && !project.image.includes('picsum') ? (
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover ios-image"
-                        />
-                    ) : project.bilibiliId ? (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="w-16 h-16 rounded-full bg-[#FF6699] text-white flex items-center justify-center shadow-lg ios-icon-container">
-                                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 ml-1"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                                <span className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Video Preview</span>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-800 p-8 text-center">
-                            <div>
-                                <h4 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'} font-black text-gray-400 dark:text-gray-600 mb-2 leading-tight`}>
-                                    {project.title}<br/>
-                                    <span className="text-lg md:text-xl font-normal opacity-70">{project.subtitle}</span>
-                                </h4>
-                                <p className="text-xs font-mono text-gray-400 mt-4 uppercase tracking-widest border border-gray-300 dark:border-gray-700 rounded-full px-3 py-1 inline-block">
-                                    {language === 'zh' ? '预览部署中...' : 'Preview Deploying...'}
-                                </p>
-                            </div>
-                        </div>
-                    )}
+                <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed font-medium">
+                  {project.description}
+                </p>
+              </div>
+              <div className="bg-black dark:bg-white text-white dark:text-black p-2 md:p-3 rounded-full opacity-0 group-hover:opacity-100 ios-arrow shrink-0">
+                 <ArrowUpRight size={24} className="md:w-7 md:h-7" />
+              </div>
+            </div>
 
-                    <div className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/95 dark:bg-black/95 backdrop-blur-sm dark:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold uppercase tracking-wider rounded-lg shadow-sm border border-transparent dark:border-white/10 ios-tag">
-                      {CATEGORY_LABELS[language][project.category] || project.category}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex justify-between items-start border-b-2 border-gray-100 dark:border-gray-800 pb-6 mt-auto">
-                    <div className="pr-4 md:pr-8">
-                        <h3 className={`${filter === 'All' ? 'text-xl md:text-2xl' : 'text-2xl md:text-4xl'} font-black text-black dark:text-white mb-2 md:mb-3 ios-title leading-tight`}>
-                          {project.title}
-                        </h3>
-                      <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed font-medium">
-                        {project.description}
-                      </p>
-                    </div>
-                    <div className="bg-black dark:bg-white text-white dark:text-black p-2 md:p-3 rounded-full opacity-0 group-hover:opacity-100 ios-arrow shrink-0">
-                       <ArrowUpRight size={24} className="md:w-7 md:h-7" />
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  {project.category !== Category.PHOTO && (
-                    <div className="mt-4 flex flex-wrap gap-2 md:gap-3">
-                       {project.tags.map(tag => (
-                         <span key={tag} className="text-[10px] md:text-xs font-bold font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider border border-gray-200 dark:border-gray-800 px-2 py-1 rounded-lg ios-tag">#{tag}</span>
-                       ))}
-                    </div>
-                  )}
-               </>
+            {/* Tags */}
+            {project.category !== Category.PHOTO && (
+              <div className="mt-4 flex flex-wrap gap-2 md:gap-3">
+                 {project.tags.map(tag => (
+                   <span key={tag} className="text-[10px] md:text-xs font-bold font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider border border-gray-200 dark:border-gray-800 px-2 py-1 rounded-lg ios-tag">#{tag}</span>
+                 ))}
+              </div>
             )}
 
           </div>
